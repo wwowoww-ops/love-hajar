@@ -261,6 +261,21 @@ button:active {
     }
 }
 
+.chess-piece {
+    display: block;
+    line-height: 1;
+    pointer-events: none;
+}
+
+.black-piece {
+    color: #17101f;
+    text-shadow: 0 1px 2px rgba(255,255,255,0.2);
+}
+
+.white-piece {
+    color: #ffffff;
+    text-shadow: 0 2px 3px rgba(0,0,0,0.5);
+} 
 
 /* الهاتف */
 
