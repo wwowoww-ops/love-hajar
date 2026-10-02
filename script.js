@@ -1,92 +1,94 @@
+const startBtn = document.getElementById("startBtn");
+
 const intro = document.getElementById("intro");
 const game = document.getElementById("game");
 const ending = document.getElementById("ending");
 
-const startBtn = document.getElementById("startBtn");
-const againBtn = document.getElementById("againBtn");
-const nextBtn = document.getElementById("nextBtn");
-
 const board = document.getElementById("board");
+
+const pieceName = document.getElementById("pieceName");
 const message = document.getElementById("message");
-const moveCount = document.getElementById("moveCount");
-
-let selected = null;
-let moves = 0;
-let messageIndex = 0;
 
 
-// ============================
-// الرسائل
-// ============================
+/*
+    كل قطعة لها عبارات خاصة بها
+*/
 
-const messages = [
+const pieces = {
 
-    "بدأت اللعبة ببيدق صغير، لكن وجودك عندي ليس شيئا صغيرا",
+    "♟": {
+        name: "البيدق",
+        messages: [
+            "بدأت بخطوة صغيرة لكنك أصبحت شيئا كبيرا بالنسبة لي."
+        ]
+    },
 
-    "الحصان يتحرك بطريقة مختلفة، وأنت أيضا دخلت حياتي بطريقة لم أتوقعها",
+    "♞": {
+        name: "الحصان",
+        messages: [
+            "تحركت بطريقة مختلفة ودخلت حياتي بطريقة مختلفة."
+        ]
+    },
 
-    "الفيل لا يسير في طريق مستقيم، لكن طريقي معك كان أجمل مما توقعت",
+    "♝": {
+        name: "الفيل",
+        messages: [
+            "مهما اختلف الطريق تبقين قريبة مني."
+        ]
+    },
 
-    "الرخ يتحرك بخط مستقيم، وأنا أحب أن تكون مشاعري تجاهك واضحة",
+    "♜": {
+        name: "الرخ",
+        messages: [
+            "وجودك في حياتي شيء ثابت لا يتغير."
+        ]
+    },
 
-    "الملكة أهم قطعة في الرقعة، لكن بالنسبة لي أنت أهم من أي قطعة",
+    "♛": {
+        name: "الملكة",
+        messages: [
+            "من بين كل القطع أنت القطعة التي تعني لي أكثر."
+        ]
+    },
 
-    "يمكن أن تحمي الملك طوال اللعبة، لكن لا أعرف من سيحمي قلبي منك",
+    "♚": {
+        name: "الملك",
+        messages: [
+            "قد تكون حركته قليلة لكنه أهم قطعة، مثلك عندي تماما."
+        ]
+    }
 
-    "كل حركة تقربنا من النهاية، وأنا بصراحة لا أريد أن أصل إليها",
+};
 
-    "هل تعرفين ما القطعة التي أحبها أكثر؟ القطعة التي تحركت بيدك",
 
-    "حتى عندما أخسر في اللعب، وجودك يجعلني أشعر أنني ربحت شيئا أهم",
+/*
+    ترتيب قطع الشطرنج
+*/
 
-    "في الشطرنج توجد قطع كثيرة، لكنني كنت أبحث عن شخص واحد فقط",
+const layout = [
 
-    "هذه ليست لعبة للفوز والخسارة، أنا فقط أردت أن ألعبها معك",
+    "♜", "♞", "♝", "♛", "♚", "♝", "♞", "♜",
 
-    "كل قطعة لها مكانها، وأنت وجدت مكانا خاصا عندي",
+    "♟", "♟", "♟", "♟", "♟", "♟", "♟", "♟",
 
-    "ربما لا تعرفين، لكن كل حركة هنا كانت سببا لأقول لك شيئا",
+    "", "", "", "", "", "", "", "",
 
-    "وأعتقد أن أجمل حركة في هذه اللعبة كانت عندما ضغطت على أول قطعة",
+    "", "", "", "", "", "", "", "",
 
-    "إذا وصلت إلى هنا، فأظن أن الوقت حان لأقولها بوضوح",
+    "", "", "", "", "", "", "", "",
 
-    "أنا سعيد جدا لأنني عرفتك"
+    "", "", "", "", "", "", "", "",
+
+    "♙", "♙", "♙", "♙", "♙", "♙", "♙", "♙",
+
+    "♖", "♘", "♗", "♕", "♔", "♗", "♘", "♖"
+
 ];
 
 
-// ============================
-// القطع
-// ============================
-
-const originalPieces = [
-
-    "♜","♞","♝","♛","♚","♝","♞","♜",
-
-    "♟","♟","♟","♟","♟","♟","♟","♟",
-
-    "","","","","","","","",
-
-    "","","","","","","","",
-
-    "","","","","","","","",
-
-    "","","","","","","","",
-
-    "♙","♙","♙","♙","♙","♙","♙","♙",
-
-    "♖","♘","♗","♕","♔","♗","♘","♖"
-
-];
-
-
-// نسخة العمل
-let pieces = [...originalPieces];
-
-
-// ============================
-// البداية
-// ============================
+/*
+    بدء الموقع
+*/
 
 startBtn.addEventListener("click", () => {
 
@@ -96,62 +98,46 @@ startBtn.addEventListener("click", () => {
 
     createBoard();
 
-    createHeart();
-
 });
 
 
-// ============================
-// إنشاء اللوحة
-// ============================
+/*
+    إنشاء الرقعة
+*/
 
 function createBoard() {
 
     board.innerHTML = "";
 
-    pieces.forEach((piece, index) => {
+    layout.forEach((piece, index) => {
 
         const square = document.createElement("div");
 
         square.classList.add("square");
 
-        // ألوان الرقعة
         const row = Math.floor(index / 8);
-        const col = index % 8;
+        const column = index % 8;
 
-        if ((row + col) % 2 === 0) {
-
+        if ((row + column) % 2 === 0) {
             square.classList.add("light");
-
         } else {
-
             square.classList.add("dark");
-
         }
-
-
-        square.dataset.index = index;
 
 
         if (piece !== "") {
 
-            const span = document.createElement("span");
+            square.textContent = piece;
 
-            span.classList.add("piece");
+            square.classList.add("has-piece");
 
-            span.textContent = piece;
+            square.addEventListener("click", () => {
 
-            square.appendChild(span);
+                showPiece(piece, square);
+
+            });
 
         }
-
-
-        square.addEventListener("click", () => {
-
-            handleSquare(square);
-
-        });
-
 
         board.appendChild(square);
 
@@ -160,216 +146,26 @@ function createBoard() {
 }
 
 
-// ============================
-// الضغط والتحريك
-// ============================
+/*
+    إظهار المقولة
+*/
 
-function handleSquare(square) {
+function showPiece(piece, square) {
 
-    const piece = square.querySelector(".piece");
+    const data = pieces[piece];
 
-
-    // اختيار قطعة
-    if (piece && selected === null) {
-
-        selected = square;
-
-        selected.classList.add("selected");
-
-        showMessage();
-
-        createHeart();
-
-        return;
-
-    }
+    if (!data) return;
 
 
-    // إلغاء الاختيار
-    if (selected === square) {
+    document.querySelectorAll(".square").forEach(item => {
+        item.classList.remove("selected");
+    });
 
-        selected.classList.remove("selected");
-
-        selected = null;
-
-        return;
-
-    }
+    square.classList.add("selected");
 
 
-    // تحريك القطعة
-    if (selected !== null) {
+    pieceName.textContent = data.name;
 
-        const selectedPiece =
-            selected.querySelector(".piece");
-
-
-        if (selectedPiece) {
-
-            square.innerHTML = "";
-
-            square.appendChild(selectedPiece);
-
-
-            selected.classList.remove("selected");
-
-            selected = null;
-
-
-            moves++;
-
-            moveCount.textContent = moves;
-
-
-            showMessage();
-
-            createHeart();
-
-
-            // بعد عدد معين تظهر النهاية
-            if (moves >= 12) {
-
-                setTimeout(() => {
-
-                    game.classList.add("hidden");
-
-                    ending.classList.remove("hidden");
-
-                    createManyHearts();
-
-                }, 1200);
-
-            }
-
-        }
-
-    }
+    message.textContent = data.messages[0];
 
 }
-
-
-// ============================
-// عرض رسالة
-// ============================
-
-function showMessage() {
-
-    messageIndex =
-        Math.min(moves, messages.length - 1);
-
-
-    message.textContent =
-        messages[messageIndex];
-
-
-    // إعادة تشغيل animation
-    message.style.animation = "none";
-
-    void message.offsetWidth;
-
-    message.style.animation =
-        "message 0.35s ease";
-
-}
-
-
-// ============================
-// رسالة أخرى
-// ============================
-
-nextBtn.addEventListener("click", () => {
-
-    messageIndex++;
-
-    if (messageIndex >= messages.length) {
-
-        messageIndex = 0;
-
-    }
-
-    message.textContent =
-        messages[messageIndex];
-
-    createHeart();
-
-});
-
-
-// ============================
-// قلب واحد
-// ============================
-
-function createHeart() {
-
-    const heart =
-        document.createElement("div");
-
-    heart.className = "heart";
-
-    heart.textContent = "♥";
-
-    heart.style.left =
-        Math.random() * 100 + "vw";
-
-    heart.style.fontSize =
-        14 + Math.random() * 18 + "px";
-
-
-    document.body.appendChild(heart);
-
-
-    setTimeout(() => {
-
-        heart.remove();
-
-    }, 4000);
-
-}
-
-
-// ============================
-// مجموعة قلوب
-// ============================
-
-function createManyHearts() {
-
-    for (let i = 0; i < 18; i++) {
-
-        setTimeout(() => {
-
-            createHeart();
-
-        }, i * 180);
-
-    }
-
-}
-
-
-// ============================
-// إعادة اللعب
-// ============================
-
-againBtn.addEventListener("click", () => {
-
-    pieces = [...originalPieces];
-
-    selected = null;
-
-    moves = 0;
-
-    messageIndex = 0;
-
-    moveCount.textContent = "0";
-
-    message.textContent =
-        "اختاري قطعة وابدئي";
-
-
-    ending.classList.add("hidden");
-
-    game.classList.remove("hidden");
-
-    createBoard();
-
-});
