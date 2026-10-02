@@ -9,7 +9,7 @@ const pieceName = document.getElementById("pieceName");
 const message = document.getElementById("message");
 
 
-/* عبارات القطع */
+/* مقولات القطع */
 
 const pieces = {
 
@@ -53,11 +53,13 @@ const pieces = {
 
 
 /*
-    ترتيب الرقعة
+    الرقعة
 
-    نستخدم اسم نوع القطعة
-    وليس رمزها حتى تعمل
-    القطع البيضاء والسوداء بنفس الطريقة
+    0 - 7   الصف العلوي
+    8 - 15  البيادق
+    ...
+    48 - 55 البيادق السفلية
+    56 - 63 القطع السفلية
 */
 
 const layout = [
@@ -137,11 +139,9 @@ const layout = [
 ];
 
 
-/*
-    بدء اللعبة
-*/
+/* بدء الموقع */
 
-startBtn.addEventListener("click", () => {
+startBtn.onclick = function () {
 
     intro.classList.add("hidden");
 
@@ -149,32 +149,28 @@ startBtn.addEventListener("click", () => {
 
     createBoard();
 
-});
+};
 
 
-/*
-    إنشاء الرقعة
-*/
+/* إنشاء الرقعة */
 
 function createBoard() {
 
     board.innerHTML = "";
 
-    layout.forEach((type, index) => {
+    for (let i = 0; i < 64; i++) {
 
         const square = document.createElement("div");
 
-        square.classList.add("square");
-
-        const row = Math.floor(index / 8);
-        const column = index % 8;
+        square.className = "square";
 
 
-        /*
-            ألوان الرقعة
-        */
+        /* لون المربع */
 
-        if ((row + column) % 2 === 0) {
+        const row = Math.floor(i / 8);
+        const col = i % 8;
+
+        if ((row + col) % 2 === 0) {
 
             square.classList.add("light");
 
@@ -185,23 +181,37 @@ function createBoard() {
         }
 
 
-        /*
-            إذا كانت هناك قطعة
-        */
+        /* نوع القطعة */
+
+        const type = layout[i];
+
 
         if (type !== "") {
 
+            square.classList.add("has-piece");
+
+
+            /*
+                إنشاء القطعة
+            */
+
             const piece = document.createElement("span");
 
-            piece.classList.add("chess-piece");
+            piece.className = "chess-piece";
+
+
+            /*
+                رمز القطعة
+            */
 
             piece.textContent = pieces[type].symbol;
 
+
             /*
-                القطع السفلية تكون بيضاء بصريا
+                القطع السفلية بيضاء
             */
 
-            if (index >= 48) {
+            if (i >= 48) {
 
                 piece.classList.add("white-piece");
 
@@ -214,33 +224,30 @@ function createBoard() {
 
             square.appendChild(piece);
 
-            square.classList.add("has-piece");
-
 
             /*
                 الضغط على المربع نفسه
-                وليس الرمز فقط
             */
 
-            square.addEventListener("click", () => {
+            square.onclick = function (event) {
+
+                event.stopPropagation();
 
                 showPiece(type, square);
 
-            });
+            };
 
         }
 
 
         board.appendChild(square);
 
-    });
+    }
 
 }
 
 
-/*
-    إظهار المقولة
-*/
+/* عرض المقولة */
 
 function showPiece(type, square) {
 
@@ -250,10 +257,12 @@ function showPiece(type, square) {
 
 
     /*
-        إزالة التحديد القديم
+        إزالة التحديد
     */
 
-    document.querySelectorAll(".square").forEach(item => {
+    const allSquares = document.querySelectorAll(".square");
+
+    allSquares.forEach(function (item) {
 
         item.classList.remove("selected");
 
@@ -261,17 +270,22 @@ function showPiece(type, square) {
 
 
     /*
-        تحديد القطعة الحالية
+        تحديد القطعة
     */
 
     square.classList.add("selected");
 
 
     /*
-        عرض المعلومات
+        عرض اسم القطعة
     */
 
     pieceName.textContent = data.name;
+
+
+    /*
+        عرض المقولة
+    */
 
     message.textContent = data.message;
 
