@@ -1,514 +1,280 @@
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    margin: 0;
     min-height: 100vh;
-
-    font-family: Arial, sans-serif;
-
     background:
         radial-gradient(
             circle at top,
-            #382047,
-            #110c16 65%
+            #35145c,
+            #170b27 50%,
+            #09050f
         );
 
     color: white;
-
+    font-family: Arial, sans-serif;
     overflow-x: hidden;
 }
 
+.hidden {
+    display: none !important;
+}
 
-main {
+.intro,
+.game,
+.ending {
     width: 100%;
     min-height: 100vh;
 
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
 
     padding: 20px;
-
-    position: relative;
-    z-index: 2;
 }
 
 
-.screen {
-    width: 100%;
-    max-width: 650px;
-
-    animation: appear 0.8s ease;
-}
-
-
-.hidden {
-    display: none;
-}
-
-
-/* الخلفية */
-
-.background {
-    position: fixed;
-
-    inset: 0;
-
-    overflow: hidden;
-
-    pointer-events: none;
-
-    opacity: 0.06;
-}
-
-
-.background span {
-    position: absolute;
-
-    font-size: 100px;
-
-    animation: movePiece 12s linear infinite;
-}
-
-
-.background span:nth-child(1) {
-    left: 5%;
-    top: 10%;
-}
-
-
-.background span:nth-child(2) {
-    left: 80%;
-    top: 20%;
-}
-
-
-.background span:nth-child(3) {
-    left: 20%;
-    top: 70%;
-}
-
-
-.background span:nth-child(4) {
-    left: 70%;
-    top: 80%;
-}
-
-
-.background span:nth-child(5) {
-    left: 45%;
-    top: 30%;
-}
-
-
-.background span:nth-child(6) {
-    left: 90%;
-    top: 65%;
-}
-
-
-/* بطاقة البداية */
+/* البطاقة */
 
 .card {
+    width: min(92vw, 500px);
+
+    padding: 35px 25px;
+
     text-align: center;
 
-    padding: 45px 25px;
+    background: rgba(30, 12, 48, 0.9);
 
-    border-radius: 25px;
+    border: 1px solid rgba(180, 120, 255, 0.4);
 
-    background:
-        rgba(255,255,255,0.06);
-
-    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 22px;
 
     box-shadow:
-        0 20px 70px rgba(0,0,0,0.35);
+        0 0 35px rgba(130, 60, 220, 0.2);
 
     backdrop-filter: blur(10px);
 }
 
-
 .small-title {
-    color: #d6a8e8;
+    color: #c99cff;
+    font-size: 18px;
+    margin-bottom: 18px;
+}
+
+h1 {
+    font-size: clamp(28px, 7vw, 40px);
+    margin-bottom: 25px;
+}
+
+.intro p,
+.ending p {
+    color: #d8c9e6;
+    font-size: 17px;
+    line-height: 1.9;
+    margin-bottom: 7px;
+}
+
+
+/* الأزرار */
+
+button {
+    border: none;
+    outline: none;
+
+    margin-top: 25px;
+
+    padding: 13px 30px;
+
+    border-radius: 12px;
+
+    background: linear-gradient(
+        135deg,
+        #9b5de5,
+        #6d28a8
+    );
+
+    color: white;
 
     font-size: 16px;
 
-    margin-bottom: 20px;
+    cursor: pointer;
+
+    box-shadow:
+        0 5px 20px rgba(130, 60, 210, 0.3);
+
+    transition: 0.2s;
+}
+
+button:active {
+    transform: scale(0.95);
 }
 
 
-h1 {
-    font-size: clamp(32px, 8vw, 55px);
+/* عنوان اللعبة */
 
-    margin: 10px 0;
+.game h2 {
+    font-size: 30px;
+    margin-bottom: 5px;
+}
+
+.hint {
+    color: #bda8ce;
+    margin-bottom: 18px;
 }
 
 
-.card p {
-    color: #ded1e2;
+/* الرقعة */
+
+.board {
+    width: min(92vw, 420px);
+    aspect-ratio: 1 / 1;
+
+    display: grid;
+
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+
+    border: 3px solid #8b5cf6;
+
+    box-shadow:
+        0 0 30px rgba(130, 60, 220, 0.25);
+}
+
+
+/* المربعات */
+
+.square {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    aspect-ratio: 1 / 1;
+
+    font-size: clamp(25px, 8vw, 43px);
+
+    user-select: none;
+
+    cursor: pointer;
+
+    transition: 0.15s;
+}
+
+.square.light {
+    background: #d8c8e8;
+}
+
+.square.dark {
+    background: #65427d;
+}
+
+.square.has-piece:active {
+    transform: scale(0.92);
+}
+
+.square.selected {
+    box-shadow:
+        inset 0 0 0 4px #c99cff;
+}
+
+
+/* صندوق الكلام */
+
+.message-box {
+    width: min(92vw, 420px);
+
+    min-height: 120px;
+
+    margin-top: 20px;
+
+    padding: 20px;
+
+    text-align: center;
+
+    background: rgba(30, 12, 48, 0.85);
+
+    border: 1px solid rgba(180, 120, 255, 0.35);
+
+    border-radius: 16px;
+}
+
+#pieceName {
+    color: #c99cff;
 
     font-size: 18px;
+
+    margin-bottom: 12px;
+}
+
+#message {
+    color: #eee;
+
+    font-size: 17px;
 
     line-height: 1.8;
 }
 
 
-.soft {
-    font-size: 15px !important;
-
-    opacity: 0.7;
-}
-
-
-button {
-    margin-top: 25px;
-
-    border: none;
-
-    padding: 14px 35px;
-
-    border-radius: 30px;
-
-    background: #934fc0;
-
-    color: white;
-
-    font-size: 17px;
-
-    cursor: pointer;
-
-    transition: 0.25s;
-}
-
-
-button:hover {
-    background: #ad64d9;
-
-    transform: translateY(-2px);
-}
-
-
-button:active {
-    transform: scale(0.96);
-}
-
-
-/* أعلى اللعبة */
-
-.top {
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    margin-bottom: 18px;
-}
-
-
-.label {
-    color: #a98ab5;
-
-    font-size: 13px;
-}
-
-
-h2 {
-    margin: 5px 0;
-
-    font-size: 25px;
-}
-
-
-.moves {
-    text-align: center;
-
-    background: rgba(255,255,255,0.06);
-
-    padding: 10px 15px;
-
-    border-radius: 12px;
-}
-
-
-.moves span {
-    display: block;
-
-    color: #aa91b4;
-
-    font-size: 12px;
-}
-
-
-.moves strong {
-    font-size: 20px;
-}
-
-
-/* لوحة الشطرنج */
-
-.board {
-    width: min(92vw, 560px);
-
-    aspect-ratio: 1;
-
-    margin: auto;
-
-    display: grid;
-
-    grid-template-columns: repeat(8, 1fr);
-
-    border: 5px solid #5d326f;
-
-    border-radius: 10px;
-
-    overflow: hidden;
-
-    box-shadow:
-        0 15px 50px rgba(0,0,0,0.45),
-        0 0 40px rgba(150,70,190,0.15);
-}
-
-
-.square {
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    font-size: clamp(25px, 8vw, 55px);
-
-    cursor: pointer;
-
-    user-select: none;
-
-    transition:
-        transform 0.15s,
-        filter 0.2s;
-}
-
-
-.square.light {
-    background: #eaddec;
-}
-
-
-.square.dark {
-    background: #754786;
-}
-
-
-.square:hover {
-    filter: brightness(1.18);
-
-    transform: scale(0.96);
-}
-
-
-.square.selected {
-    box-shadow:
-        inset 0 0 0 5px #dca4f2;
-}
-
-
-.piece {
-    transition: transform 0.25s;
-}
-
-
-.square:hover .piece {
-    transform: scale(1.12);
-}
-
-
-/* الرسالة */
-
-.message-box {
-    margin: 20px auto 10px;
-
-    min-height: 115px;
-
-    padding: 18px 20px;
-
-    border-radius: 18px;
-
-    background: rgba(255,255,255,0.06);
-
-    border: 1px solid rgba(255,255,255,0.09);
-
-    text-align: center;
-}
-
-
-.message-title {
-    color: #b878d5;
-
-    font-size: 13px;
-
-    margin-bottom: 8px;
-}
-
-
-#message {
-    margin: 0;
-
-    font-size: 19px;
-
-    line-height: 1.7;
-
-    animation: message 0.35s ease;
-}
-
-
-.small-btn {
-    display: block;
-
-    margin: 15px auto;
-
-    padding: 10px 22px;
-
-    background: transparent;
-
-    border: 1px solid #805098;
-
-    font-size: 14px;
-}
-
-
 /* النهاية */
 
-.ending-card {
-    padding: 40px 25px;
+.checkmate {
+    color: #c99cff;
+
+    font-size: 22px;
+
+    margin-bottom: 15px;
 }
 
+.final {
+    color: #d39cff !important;
 
-.final-piece {
-    font-size: 70px;
+    font-size: 25px !important;
 
-    margin-bottom: 10px;
-
-    color: #eaddec;
+    margin-top: 15px;
 }
-
-
-.line {
-    width: 70px;
-
-    height: 1px;
-
-    background: #9c58b9;
-
-    margin: 25px auto;
-}
-
-
-.final-text {
-    margin: 18px 0;
-
-    color: #ded1e2;
-
-    font-size: 17px !important;
-}
-
-
-.last {
-    color: #d08be9 !important;
-
-    font-size: 20px !important;
-
-    margin-top: 30px !important;
-}
-
-
-/* القلوب */
 
 .heart {
-    position: fixed;
+    color: #b86cff;
 
-    bottom: -30px;
+    font-size: 45px;
 
-    color: #c76de8;
+    margin-top: 15px;
 
-    pointer-events: none;
-
-    z-index: 10;
-
-    animation: heart 4s linear forwards;
+    animation: pulse 1.5s infinite;
 }
 
+@keyframes pulse {
 
-/* الحركات */
-
-@keyframes appear {
-
-    from {
-        opacity: 0;
-
-        transform: translateY(20px);
+    0%,
+    100% {
+        transform: scale(1);
     }
 
-    to {
-        opacity: 1;
-
-        transform: translateY(0);
+    50% {
+        transform: scale(1.15);
     }
 }
 
 
-@keyframes message {
+/* الهاتف */
 
-    from {
-        opacity: 0;
+@media (max-width: 400px) {
 
-        transform: translateY(8px);
+    .board {
+        width: 94vw;
     }
 
-    to {
-        opacity: 1;
-
-        transform: translateY(0);
-    }
-}
-
-
-@keyframes heart {
-
-    from {
-        opacity: 0;
-
-        transform:
-            translateY(0)
-            rotate(0);
+    .square {
+        font-size: 10vw;
     }
 
-    15% {
-        opacity: 0.8;
-    }
-
-    to {
-        opacity: 0;
-
-        transform:
-            translateY(-110vh)
-            rotate(30deg);
-    }
-}
-
-
-@keyframes movePiece {
-
-    from {
-        transform:
-            translateY(0)
-            rotate(0);
-    }
-
-    to {
-        transform:
-            translateY(-40px)
-            rotate(10deg);
+    .message-box {
+        width: 94vw;
     }
 }
