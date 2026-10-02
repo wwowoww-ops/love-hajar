@@ -1,51 +1,30 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>إلى هاجر</title>
-
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <div class="background">
-        <span>♟</span>
-        <span>♞</span>
-        <span>♟</span>
-        <span>♕</span>
-        <span>♟</span>
-        <span>♔</span>
-    </div>
-
     <main>
 
-        <!-- البداية -->
-
-        <section id="intro" class="screen">
+        <section class="intro" id="intro">
 
             <div class="card">
 
-                <div class="small-title">
-                    إلى هاجر
-                </div>
+                <div class="small-title">إلى هاجر</div>
 
-                <h1>
-                    عندي لك لعبة صغيرة
-                </h1>
+                <h1>عندي لك شيء صغير</h1>
 
-                <p>
-                    هذه المرة لن نلعب شطرنجا عاديا
-                </p>
-
-                <p class="soft">
-                    كل قطعة تخفي شيئا أريد أن أقوله لك
-                </p>
+                <p>هذه المرة لن نلعب شطرنجا عاديا</p>
+                <p>كل قطعة تحمل شيئا يذكرني بك</p>
 
                 <button id="startBtn">
-                    ابدئي اللعب
+                    ابدئي
                 </button>
 
             </div>
@@ -53,91 +32,58 @@
         </section>
 
 
-        <!-- اللعبة -->
+        <section class="game hidden" id="game">
 
-        <section id="game" class="screen hidden">
+            <h2>رقعتنا</h2>
 
-            <div class="top">
-
-                <div>
-                    <span class="label">اللعبة</span>
-                    <h2>كل حركة لها معنى</h2>
-                </div>
-
-                <div class="moves">
-                    <span>الحركات</span>
-                    <strong id="moveCount">0</strong>
-                </div>
-
-            </div>
-
+            <p class="hint">
+                اضغطي على القطع
+            </p>
 
             <div class="board" id="board"></div>
 
-
             <div class="message-box">
 
-                <div class="message-title">
-                    رسالة
+                <div id="pieceName">
+                    اختاري قطعة
                 </div>
 
                 <p id="message">
-                    اختاري قطعة وابدئي
+                    كل قطعة هنا لها معنى خاص
                 </p>
 
             </div>
 
-
-            <button class="small-btn" id="nextBtn">
-                كلمة أخرى
-            </button>
-
         </section>
 
 
-        <!-- النهاية -->
+        <section class="ending hidden" id="ending">
 
-        <section id="ending" class="screen hidden">
+            <div class="card">
 
-            <div class="card ending-card">
-
-                <div class="final-piece">
-                    ♔
+                <div class="checkmate">
+                    كش مات
                 </div>
 
-                <h1>
-                    كش مات
-                </h1>
+                <h1>انتهت اللعبة</h1>
 
                 <p>
-                    انتهت اللعبة
+                    في النهاية اكتشفت شيئا
                 </p>
 
-                <div class="line"></div>
-
-                <p class="final-text">
-                    طوال الوقت كنت أظن أنني أحرك القطع
-                    <br>
-                    لكن بطريقة ما أنت من حرك شيئا بداخلي
+                <p>
+                    لم تكن القطع هي الشيء المهم
                 </p>
 
-                <p class="final-text">
-                    صنعت لك هذا الموقع لأنك شخص مميز بالنسبة لي
+                <p>
+                    كان المهم الشخص الذي جعلني أراها بطريقة مختلفة
                 </p>
 
-                <p class="final-text">
-                    وربما أجمل شيء في هذه اللعبة
-                    <br>
-                    أنني لم أكن أريد الفوز فيها
+                <p class="final">
+                    هاجر
                 </p>
 
-                <p class="last">
-                    كنت فقط أريد أن ألعبها معك
-                </p>
-
-                <button id="againBtn">
-                    نعيد اللعب؟
-                </button>
+                <div class="heart">♥</div>
 
             </div>
 
@@ -145,8 +91,8 @@
 
     </main>
 
-
     <script src="script.js"></script>
 
 </body>
+
 </html>
