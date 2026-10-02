@@ -6,6 +6,7 @@
 
 body {
     min-height: 100vh;
+
     background:
         radial-gradient(
             circle at top,
@@ -15,13 +16,18 @@ body {
         );
 
     color: white;
+
     font-family: Arial, sans-serif;
+
     overflow-x: hidden;
 }
 
 .hidden {
     display: none !important;
 }
+
+
+/* الأقسام */
 
 .intro,
 .game,
@@ -31,6 +37,7 @@ body {
 
     display: flex;
     flex-direction: column;
+
     align-items: center;
     justify-content: center;
 
@@ -61,20 +68,26 @@ body {
 
 .small-title {
     color: #c99cff;
+
     font-size: 18px;
+
     margin-bottom: 18px;
 }
 
 h1 {
     font-size: clamp(28px, 7vw, 40px);
+
     margin-bottom: 25px;
 }
 
 .intro p,
 .ending p {
     color: #d8c9e6;
+
     font-size: 17px;
+
     line-height: 1.9;
+
     margin-bottom: 7px;
 }
 
@@ -91,11 +104,12 @@ button {
 
     border-radius: 12px;
 
-    background: linear-gradient(
-        135deg,
-        #9b5de5,
-        #6d28a8
-    );
+    background:
+        linear-gradient(
+            135deg,
+            #9b5de5,
+            #6d28a8
+        );
 
     color: white;
 
@@ -118,11 +132,13 @@ button:active {
 
 .game h2 {
     font-size: 30px;
+
     margin-bottom: 5px;
 }
 
 .hint {
     color: #bda8ce;
+
     margin-bottom: 18px;
 }
 
@@ -131,6 +147,7 @@ button:active {
 
 .board {
     width: min(92vw, 420px);
+
     aspect-ratio: 1 / 1;
 
     display: grid;
@@ -142,6 +159,8 @@ button:active {
 
     box-shadow:
         0 0 30px rgba(130, 60, 220, 0.25);
+
+    overflow: hidden;
 }
 
 
@@ -151,20 +170,25 @@ button:active {
     width: 100%;
     height: 100%;
 
+    min-width: 0;
+    min-height: 0;
+
     display: flex;
+
     align-items: center;
     justify-content: center;
-
-    aspect-ratio: 1 / 1;
-
-    font-size: clamp(25px, 8vw, 43px);
 
     user-select: none;
 
     cursor: pointer;
 
+    position: relative;
+
     transition: 0.15s;
 }
+
+
+/* ألوان الرقعة */
 
 .square.light {
     background: #d8c8e8;
@@ -174,9 +198,56 @@ button:active {
     background: #65427d;
 }
 
-.square.has-piece:active {
-    transform: scale(0.92);
+
+/* القطعة نفسها */
+
+.chess-piece {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    line-height: 1;
+
+    font-size: clamp(25px, 8vw, 43px);
+
+    pointer-events: none;
+
+    user-select: none;
 }
+
+
+/* القطع السوداء */
+
+.black-piece {
+    color: #17101f;
+
+    text-shadow:
+        0 1px 2px rgba(255, 255, 255, 0.2);
+}
+
+
+/* القطع البيضاء */
+
+.white-piece {
+    color: #ffffff;
+
+    text-shadow:
+        0 2px 3px rgba(0, 0, 0, 0.5);
+}
+
+
+/* تأثير الضغط */
+
+.square.has-piece:active {
+    transform: scale(0.94);
+}
+
+
+/* القطعة المختارة */
 
 .square.selected {
     box-shadow:
@@ -261,21 +332,6 @@ button:active {
     }
 }
 
-.chess-piece {
-    display: block;
-    line-height: 1;
-    pointer-events: none;
-}
-
-.black-piece {
-    color: #17101f;
-    text-shadow: 0 1px 2px rgba(255,255,255,0.2);
-}
-
-.white-piece {
-    color: #ffffff;
-    text-shadow: 0 2px 3px rgba(0,0,0,0.5);
-} 
 
 /* الهاتف */
 
@@ -285,7 +341,7 @@ button:active {
         width: 94vw;
     }
 
-    .square {
+    .chess-piece {
         font-size: 10vw;
     }
 
