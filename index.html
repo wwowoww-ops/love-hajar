@@ -3,7 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>إلى هاجر</title>
 
@@ -12,18 +16,87 @@
 
 <body>
 
+
+    <!-- =========================================
+         الشاشة الوهمية
+    ========================================== -->
+
+    <div id="fakeIntro">
+
+        <div class="fake-error">
+
+            <div class="fake-code">
+                404
+            </div>
+
+            <div class="fake-title">
+                الصفحة غير موجودة
+            </div>
+
+            <div class="fake-text">
+                حدث خطأ غير متوقع...
+            </div>
+
+            <div class="fake-loading">
+
+                <span></span>
+                <span></span>
+                <span></span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         شاشة المزحة
+    ========================================== -->
+
+    <div id="prankScreen">
+
+        <div
+            class="prank-text"
+            id="prankText"
+        >
+            لحظة...
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         الموقع الحقيقي
+    ========================================== -->
+
     <main>
 
-        <section class="intro" id="intro">
+
+        <!-- المقدمة -->
+
+        <section
+            class="intro"
+            id="intro"
+        >
 
             <div class="card">
 
-                <div class="small-title">إلى هاجر</div>
+                <div class="small-title">
+                    إلى هاجر
+                </div>
 
-                <h1>عندي لك شيء صغير</h1>
+                <h1>
+                    عندي لك شيء صغير
+                </h1>
 
-                <p>هذه المرة لن نلعب شطرنجا عاديا</p>
-                <p>كل قطعة تحمل شيئا يذكرني بك</p>
+                <p>
+                    هذه المرة لن نلعب شطرنجا عاديا
+                </p>
+
+                <p>
+                    كل قطعة تحمل شيئا يذكرني بك
+                </p>
 
                 <button id="startBtn">
                     ابدئي
@@ -34,15 +107,27 @@
         </section>
 
 
-        <section class="game hidden" id="game">
+        <!-- اللعبة -->
 
-            <h2>رقعتنا</h2>
+        <section
+            class="game hidden"
+            id="game"
+        >
+
+            <h2>
+                رقعتنا
+            </h2>
 
             <p class="hint">
                 اضغطي على القطع
             </p>
 
-            <div class="board" id="board"></div>
+
+            <div
+                class="board"
+                id="board"
+            ></div>
+
 
             <div class="message-box">
 
@@ -59,7 +144,12 @@
         </section>
 
 
-        <section class="ending hidden" id="ending">
+        <!-- النهاية -->
+
+        <section
+            class="ending hidden"
+            id="ending"
+        >
 
             <div class="card">
 
@@ -67,7 +157,9 @@
                     كش مات
                 </div>
 
-                <h1>انتهت اللعبة</h1>
+                <h1>
+                    انتهت اللعبة
+                </h1>
 
                 <p>
                     في النهاية اكتشفت شيئا
@@ -85,7 +177,9 @@
                     هاجر
                 </p>
 
-                <div class="heart">♥</div>
+                <div class="heart">
+                    ♥
+                </div>
 
             </div>
 
