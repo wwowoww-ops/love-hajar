@@ -118,7 +118,7 @@ button {
     cursor: pointer;
 
     box-shadow:
-        0 5px 20px rgba(130, 60, 210, 0.3);
+        0 5px 20px rgba(130, 60, 220, 0.3);
 
     transition: 0.2s;
 }
@@ -128,7 +128,7 @@ button:active {
 }
 
 
-/* عنوان اللعبة */
+/* عنوان الرقعة */
 
 .game h2 {
     font-size: 30px;
@@ -140,6 +140,13 @@ button:active {
     color: #bda8ce;
 
     margin-bottom: 18px;
+}
+
+
+/* منطقة اللعبة */
+
+.game {
+    gap: 0;
 }
 
 
@@ -187,9 +194,6 @@ button:active {
     transition: 0.15s;
 }
 
-
-/* ألوان الرقعة */
-
 .square.light {
     background: #d8c8e8;
 }
@@ -199,7 +203,7 @@ button:active {
 }
 
 
-/* القطعة نفسها */
+/* القطع */
 
 .chess-piece {
     width: 100%;
@@ -240,7 +244,7 @@ button:active {
 }
 
 
-/* تأثير الضغط */
+/* الضغط */
 
 .square.has-piece:active {
     transform: scale(0.94);
@@ -333,7 +337,173 @@ button:active {
 }
 
 
-/* الهاتف */
+/* زر الصوت */
+
+.sound-button {
+
+    position: fixed;
+
+    top: 18px;
+    left: 18px;
+
+    width: 44px;
+    height: 44px;
+
+    margin: 0;
+
+    padding: 0;
+
+    border-radius: 50%;
+
+    background: rgba(30, 12, 48, 0.85);
+
+    border: 1px solid rgba(201, 156, 255, 0.45);
+
+    color: white;
+
+    font-size: 19px;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    z-index: 1000;
+
+    box-shadow:
+        0 0 18px rgba(130, 60, 220, 0.25);
+
+    backdrop-filter: blur(8px);
+}
+
+.sound-button.show {
+    display: flex;
+}
+
+.sound-button:active {
+    transform: scale(0.9);
+}
+
+
+/* =========================
+   اللابتوب والشاشات الكبيرة
+========================= */
+
+@media (min-width: 800px) {
+
+    .game {
+        display: grid;
+
+        grid-template-columns:
+            minmax(420px, 520px)
+            minmax(320px, 420px);
+
+        grid-template-rows:
+            auto
+            auto
+            1fr;
+
+        column-gap: 70px;
+
+        align-content: center;
+
+        justify-content: center;
+
+        direction: ltr;
+    }
+
+
+    .game h2 {
+
+        grid-column: 1 / -1;
+
+        direction: rtl;
+
+        margin-bottom: 5px;
+
+    }
+
+
+    .game .hint {
+
+        grid-column: 1 / -1;
+
+        direction: rtl;
+
+        margin-bottom: 25px;
+
+    }
+
+
+    .board {
+
+        grid-column: 1;
+
+        grid-row: 3;
+
+        width: min(42vw, 500px);
+
+        justify-self: end;
+
+    }
+
+
+    .message-box {
+
+        grid-column: 2;
+
+        grid-row: 3;
+
+        align-self: center;
+
+        justify-self: start;
+
+        width: min(35vw, 420px);
+
+        min-height: 150px;
+
+        margin-top: 0;
+
+        direction: rtl;
+
+        display: flex;
+
+        flex-direction: column;
+
+        justify-content: center;
+
+    }
+
+
+    .chess-piece {
+
+        font-size: clamp(32px, 4vw, 52px);
+
+    }
+
+}
+
+
+/* =========================
+   الهاتف
+========================= */
+
+@media (max-width: 799px) {
+
+    .board {
+        width: 94vw;
+        max-width: 420px;
+    }
+
+    .message-box {
+        width: 94vw;
+        max-width: 420px;
+    }
+
+}
+
+
+/* الهواتف الصغيرة */
 
 @media (max-width: 400px) {
 
@@ -348,4 +518,5 @@ button:active {
     .message-box {
         width: 94vw;
     }
+
 }
