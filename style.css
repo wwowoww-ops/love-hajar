@@ -4,6 +4,12 @@
     padding: 0;
 }
 
+
+html {
+    min-height: 100%;
+}
+
+
 body {
     min-height: 100vh;
 
@@ -17,71 +23,108 @@ body {
 
     color: white;
 
-    font-family: Arial, sans-serif;
+    font-family:
+        Arial,
+        sans-serif;
 
     overflow-x: hidden;
 }
+
+
+/* =========================================
+   عام
+========================================= */
 
 .hidden {
     display: none !important;
 }
 
 
-/* الأقسام */
+button {
+    font-family: inherit;
+}
+
+
+/* =========================================
+   الأقسام
+========================================= */
 
 .intro,
 .game,
 .ending {
+
     width: 100%;
+
     min-height: 100vh;
 
     display: flex;
+
     flex-direction: column;
 
     align-items: center;
+
     justify-content: center;
 
     padding: 20px;
+
 }
 
 
-/* البطاقة */
+/* =========================================
+   البطاقة
+========================================= */
 
 .card {
+
     width: min(92vw, 500px);
 
     padding: 35px 25px;
 
     text-align: center;
 
-    background: rgba(30, 12, 48, 0.9);
+    background:
+        rgba(30, 12, 48, 0.9);
 
-    border: 1px solid rgba(180, 120, 255, 0.4);
+    border:
+        1px solid
+        rgba(180, 120, 255, 0.4);
 
     border-radius: 22px;
 
     box-shadow:
-        0 0 35px rgba(130, 60, 220, 0.2);
+        0 0 35px
+        rgba(130, 60, 220, 0.2);
 
-    backdrop-filter: blur(10px);
+    backdrop-filter:
+        blur(10px);
+
 }
 
+
 .small-title {
+
     color: #c99cff;
 
     font-size: 18px;
 
     margin-bottom: 18px;
+
 }
+
 
 h1 {
-    font-size: clamp(28px, 7vw, 40px);
+
+    font-size:
+        clamp(28px, 7vw, 40px);
 
     margin-bottom: 25px;
+
 }
+
 
 .intro p,
 .ending p {
+
     color: #d8c9e6;
 
     font-size: 17px;
@@ -89,13 +132,18 @@ h1 {
     line-height: 1.9;
 
     margin-bottom: 7px;
+
 }
 
 
-/* الأزرار */
+/* =========================================
+   الزر
+========================================= */
 
 button {
+
     border: none;
+
     outline: none;
 
     margin-top: 25px;
@@ -118,62 +166,91 @@ button {
     cursor: pointer;
 
     box-shadow:
-        0 5px 20px rgba(130, 60, 220, 0.3);
+        0 5px 20px
+        rgba(130, 60, 220, 0.3);
 
-    transition: 0.2s;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+
 }
+
 
 button:active {
-    transform: scale(0.95);
+
+    transform:
+        scale(0.95);
+
 }
 
 
-/* عنوان الرقعة */
+/* =========================================
+   اللعبة
+========================================= */
+
+.game {
+
+    gap: 0;
+
+}
+
 
 .game h2 {
+
     font-size: 30px;
 
     margin-bottom: 5px;
+
 }
 
+
 .hint {
+
     color: #bda8ce;
 
     margin-bottom: 18px;
+
 }
 
 
-/* منطقة اللعبة */
-
-.game {
-    gap: 0;
-}
-
-
-/* الرقعة */
+/* =========================================
+   الرقعة
+========================================= */
 
 .board {
-    width: min(92vw, 420px);
 
-    aspect-ratio: 1 / 1;
+    width:
+        min(92vw, 420px);
+
+    aspect-ratio:
+        1 / 1;
 
     display: grid;
 
-    grid-template-columns: repeat(8, 1fr);
-    grid-template-rows: repeat(8, 1fr);
+    grid-template-columns:
+        repeat(8, 1fr);
 
-    border: 3px solid #8b5cf6;
+    grid-template-rows:
+        repeat(8, 1fr);
+
+    border:
+        3px solid #8b5cf6;
 
     box-shadow:
-        0 0 30px rgba(130, 60, 220, 0.25);
+        0 0 30px
+        rgba(130, 60, 220, 0.25);
 
     overflow: hidden;
+
 }
 
 
-/* المربعات */
+/* =========================================
+   المربعات
+========================================= */
 
 .square {
+
     width: 100%;
     height: 100%;
 
@@ -185,84 +262,109 @@ button:active {
     align-items: center;
     justify-content: center;
 
+    position: relative;
+
     user-select: none;
 
     cursor: pointer;
 
-    position: relative;
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
 
-    transition: 0.15s;
 }
+
 
 .square.light {
-    background: #d8c8e8;
+
+    background:
+        #d8c8e8;
+
 }
+
 
 .square.dark {
-    background: #65427d;
+
+    background:
+        #65427d;
+
 }
 
 
-/* القطع */
+.square.has-piece:active {
 
-.chess-piece {
-    width: 100%;
-    height: 100%;
+    transform:
+        scale(0.94);
 
-    display: flex;
+}
 
-    align-items: center;
-    justify-content: center;
 
-    line-height: 1;
+.square.selected {
 
-    font-size: clamp(25px, 8vw, 43px);
+    box-shadow:
+        inset 0 0 0 4px #c99cff;
+
+}
+
+
+/* =========================================
+   قطع SVG
+========================================= */
+
+.svg-chess-piece {
+
+    width: 86%;
+
+    height: 86%;
+
+    display: block;
+
+    overflow: visible;
 
     pointer-events: none;
 
     user-select: none;
+
+    shape-rendering:
+        geometricPrecision;
+
+}
+
+
+/* لمعة خفيفة للقطع البيضاء */
+
+.white-piece {
+
+    filter:
+        drop-shadow(
+            0 2px 2px
+            rgba(0, 0, 0, 0.38)
+        );
+
 }
 
 
 /* القطع السوداء */
 
 .black-piece {
-    color: #17101f;
 
-    text-shadow:
-        0 1px 2px rgba(255, 255, 255, 0.2);
+    filter:
+        drop-shadow(
+            0 2px 2px
+            rgba(255, 255, 255, 0.12)
+        );
+
 }
 
 
-/* القطع البيضاء */
-
-.white-piece {
-    color: #ffffff;
-
-    text-shadow:
-        0 2px 3px rgba(0, 0, 0, 0.5);
-}
-
-
-/* الضغط */
-
-.square.has-piece:active {
-    transform: scale(0.94);
-}
-
-
-/* القطعة المختارة */
-
-.square.selected {
-    box-shadow:
-        inset 0 0 0 4px #c99cff;
-}
-
-
-/* صندوق الكلام */
+/* =========================================
+   صندوق الكلام
+========================================= */
 
 .message-box {
-    width: min(92vw, 420px);
+
+    width:
+        min(92vw, 420px);
 
     min-height: 120px;
 
@@ -272,72 +374,105 @@ button:active {
 
     text-align: center;
 
-    background: rgba(30, 12, 48, 0.85);
+    background:
+        rgba(30, 12, 48, 0.85);
 
-    border: 1px solid rgba(180, 120, 255, 0.35);
+    border:
+        1px solid
+        rgba(180, 120, 255, 0.35);
 
     border-radius: 16px;
+
 }
 
+
 #pieceName {
+
     color: #c99cff;
 
     font-size: 18px;
 
     margin-bottom: 12px;
+
 }
 
+
 #message {
+
     color: #eee;
 
     font-size: 17px;
 
     line-height: 1.8;
+
 }
 
 
-/* النهاية */
+/* =========================================
+   النهاية
+========================================= */
 
 .checkmate {
+
     color: #c99cff;
 
     font-size: 22px;
 
     margin-bottom: 15px;
+
 }
+
 
 .final {
-    color: #d39cff !important;
 
-    font-size: 25px !important;
+    color:
+        #d39cff !important;
+
+    font-size:
+        25px !important;
 
     margin-top: 15px;
+
 }
 
+
 .heart {
+
     color: #b86cff;
 
     font-size: 45px;
 
     margin-top: 15px;
 
-    animation: pulse 1.5s infinite;
+    animation:
+        pulse 1.5s infinite;
+
 }
+
 
 @keyframes pulse {
 
     0%,
     100% {
-        transform: scale(1);
+
+        transform:
+            scale(1);
+
     }
 
     50% {
-        transform: scale(1.15);
+
+        transform:
+            scale(1.15);
+
     }
+
 }
 
 
-/* زر الصوت */
+/* =========================================
+   زر الصوت
+========================================= */
 
 .sound-button {
 
@@ -355,9 +490,12 @@ button:active {
 
     border-radius: 50%;
 
-    background: rgba(30, 12, 48, 0.85);
+    background:
+        rgba(30, 12, 48, 0.85);
 
-    border: 1px solid rgba(201, 156, 255, 0.45);
+    border:
+        1px solid
+        rgba(201, 156, 255, 0.45);
 
     color: white;
 
@@ -371,27 +509,38 @@ button:active {
     z-index: 1000;
 
     box-shadow:
-        0 0 18px rgba(130, 60, 220, 0.25);
+        0 0 18px
+        rgba(130, 60, 220, 0.25);
 
-    backdrop-filter: blur(8px);
+    backdrop-filter:
+        blur(8px);
+
 }
+
 
 .sound-button.show {
+
     display: flex;
+
 }
+
 
 .sound-button:active {
-    transform: scale(0.9);
+
+    transform:
+        scale(0.9);
+
 }
 
 
-/* =========================
-   اللابتوب والشاشات الكبيرة
-========================= */
+/* =========================================
+   اللابتوب
+========================================= */
 
 @media (min-width: 800px) {
 
     .game {
+
         display: grid;
 
         grid-template-columns:
@@ -410,12 +559,14 @@ button:active {
         justify-content: center;
 
         direction: ltr;
+
     }
 
 
     .game h2 {
 
-        grid-column: 1 / -1;
+        grid-column:
+            1 / -1;
 
         direction: rtl;
 
@@ -426,7 +577,8 @@ button:active {
 
     .game .hint {
 
-        grid-column: 1 / -1;
+        grid-column:
+            1 / -1;
 
         direction: rtl;
 
@@ -441,7 +593,8 @@ button:active {
 
         grid-row: 3;
 
-        width: min(42vw, 500px);
+        width:
+            min(42vw, 500px);
 
         justify-self: end;
 
@@ -458,7 +611,8 @@ button:active {
 
         justify-self: start;
 
-        width: min(35vw, 420px);
+        width:
+            min(35vw, 420px);
 
         min-height: 150px;
 
@@ -475,48 +629,321 @@ button:active {
     }
 
 
-    .chess-piece {
+    .svg-chess-piece {
 
-        font-size: clamp(32px, 4vw, 52px);
+        width: 88%;
+
+        height: 88%;
 
     }
 
 }
 
 
-/* =========================
+/* =========================================
    الهاتف
-========================= */
+========================================= */
 
 @media (max-width: 799px) {
 
     .board {
+
         width: 94vw;
+
         max-width: 420px;
+
     }
 
+
     .message-box {
+
         width: 94vw;
+
         max-width: 420px;
+
     }
 
 }
 
 
-/* الهواتف الصغيرة */
+/* =========================================
+   الهواتف الصغيرة
+========================================= */
 
 @media (max-width: 400px) {
 
     .board {
+
         width: 94vw;
+
     }
 
-    .chess-piece {
-        font-size: 10vw;
+
+    .svg-chess-piece {
+
+        width: 88%;
+
+        height: 88%;
+
     }
+
 
     .message-box {
+
         width: 94vw;
+
+    }
+
+
+    .fake-code {
+
+        font-size: 64px;
+
+    }
+
+}
+
+
+/* =========================================
+   الشاشة الوهمية
+========================================= */
+
+#fakeIntro {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 99999;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #f2f2f2;
+
+    color: #222;
+
+    font-family:
+        Arial,
+        sans-serif;
+
+    transition:
+        opacity 0.45s ease,
+        visibility 0.45s ease;
+
+}
+
+
+.fake-error {
+
+    width:
+        min(88vw, 430px);
+
+    text-align: center;
+
+    padding: 30px;
+
+}
+
+
+.fake-code {
+
+    font-size: 76px;
+
+    font-weight: 800;
+
+    color: #777;
+
+    margin-bottom: 12px;
+
+}
+
+
+.fake-title {
+
+    font-size: 23px;
+
+    font-weight: 600;
+
+    margin-bottom: 12px;
+
+}
+
+
+.fake-text {
+
+    color: #888;
+
+    font-size: 15px;
+
+}
+
+
+.fake-loading {
+
+    margin-top: 25px;
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 7px;
+
+}
+
+
+.fake-loading span {
+
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #888;
+
+    animation:
+        fakeLoading 1s infinite;
+
+}
+
+
+.fake-loading span:nth-child(2) {
+
+    animation-delay:
+        0.15s;
+
+}
+
+
+.fake-loading span:nth-child(3) {
+
+    animation-delay:
+        0.3s;
+
+}
+
+
+@keyframes fakeLoading {
+
+    0%,
+    100% {
+
+        opacity: 0.25;
+
+    }
+
+    50% {
+
+        opacity: 1;
+
+    }
+
+}
+
+
+#fakeIntro.hide {
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+
+}
+
+
+/* =========================================
+   شاشة المزحة
+========================================= */
+
+#prankScreen {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 100000;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    background: #000;
+
+    color: white;
+
+    opacity: 0;
+
+}
+
+
+.prank-text {
+
+    font-size:
+        clamp(
+            24px,
+            7vw,
+            42px
+        );
+
+    text-align: center;
+
+    opacity: 0;
+
+    transform:
+        scale(0.9);
+
+    transition:
+        opacity 0.6s ease,
+        transform 0.6s ease;
+
+}
+
+
+.prank-text.show {
+
+    opacity: 1;
+
+    transform:
+        scale(1);
+
+}
+
+
+/* =========================================
+   ظهور الموقع الحقيقي
+========================================= */
+
+body.reveal main {
+
+    animation:
+        realSiteReveal
+        1s ease both;
+
+}
+
+
+@keyframes realSiteReveal {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            scale(1.025);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            scale(1);
+
     }
 
 }
