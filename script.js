@@ -9,58 +9,85 @@ const pieceName = document.getElementById("pieceName");
 const message = document.getElementById("message");
 
 
-/* مقولات القطع */
+/* مقولات كل قطعة */
 
 const pieces = {
 
     pawn: {
         name: "البيدق",
         symbol: "♟",
-        message: "بدأت بخطوة صغيرة لكنك أصبحت شيئا كبيرا بالنسبة لي."
+
+        messages: [
+            "بدأت بخطوة صغيرة لكنك أصبحت شيئا كبيرا بالنسبة لي.",
+            "كل شيء جميل يبدأ بخطوة بسيطة.",
+            "ربما هي أصغر قطعة لكنها تذكرني ببداية قصتنا."
+        ]
     },
+
 
     knight: {
         name: "الحصان",
         symbol: "♞",
-        message: "تحركت بطريقة مختلفة ودخلت حياتي بطريقة مختلفة."
+
+        messages: [
+            "تحركت بطريقة مختلفة ودخلت حياتي بطريقة مختلفة.",
+            "طريقك مختلف عن الجميع وهذا ما جعلني أتعلق بك.",
+            "الحصان يقفز فوق كل شيء، وأنت تخطيت كل المسافات ووصلت إلي."
+        ]
     },
+
 
     bishop: {
         name: "الفيل",
         symbol: "♝",
-        message: "مهما اختلف الطريق تبقين قريبة مني."
+
+        messages: [
+            "مهما اختلف الطريق تبقين قريبة مني.",
+            "طريقه مختلف، لكن نهايته دائما تصل إلى مكان ما.",
+            "حتى عندما لا يكون الطريق مستقيما، وجودك يجعل الوصول جميلا."
+        ]
     },
+
 
     rook: {
         name: "الرخ",
         symbol: "♜",
-        message: "وجودك في حياتي شيء ثابت لا يتغير."
+
+        messages: [
+            "وجودك في حياتي شيء ثابت لا يتغير.",
+            "الرخ يبقى ثابتا وقويا، وهذا ما أتمناه لوجودك معي.",
+            "أحب الأشياء التي تبقى، وأنت واحدة منها."
+        ]
     },
+
 
     queen: {
         name: "الملكة",
         symbol: "♛",
-        message: "من بين كل القطع أنت القطعة التي تعني لي أكثر."
+
+        messages: [
+            "من بين كل القطع أنت القطعة التي تعني لي أكثر.",
+            "الملكة تستطيع الوصول إلى كل مكان، وأنت وصلت إلى قلبي.",
+            "لو كانت لهذه الرقعة قطعة تشبهك، فستكون الملكة."
+        ]
     },
+
 
     king: {
         name: "الملك",
         symbol: "♚",
-        message: "قد تكون حركته قليلة لكنه أهم قطعة، مثلك عندي تماما."
+
+        messages: [
+            "قد تكون حركته قليلة لكنه أهم قطعة، مثلك عندي تماما.",
+            "ليس المهم عدد الخطوات، بل المكانة التي تملكها.",
+            "هناك قطع كثيرة في الرقعة، لكن عيني دائما تبحث عنك."
+        ]
     }
 
 };
 
 
-/*
-    الرقعة
-
-    0 - 7   الصف العلوي
-    8 - 15  البيادق
-    ...
-    48 - 55 البيادق السفلية
-    56 - 63 القطع السفلية
-*/
+/* ترتيب الرقعة */
 
 const layout = [
 
@@ -139,6 +166,11 @@ const layout = [
 ];
 
 
+/* حفظ آخر مقولة لكل قطعة */
+
+const messageIndex = {};
+
+
 /* بدء الموقع */
 
 startBtn.onclick = function () {
@@ -181,8 +213,6 @@ function createBoard() {
         }
 
 
-        /* نوع القطعة */
-
         const type = layout[i];
 
 
@@ -191,25 +221,16 @@ function createBoard() {
             square.classList.add("has-piece");
 
 
-            /*
-                إنشاء القطعة
-            */
+            /* إنشاء القطعة */
 
             const piece = document.createElement("span");
 
             piece.className = "chess-piece";
 
-
-            /*
-                رمز القطعة
-            */
-
             piece.textContent = pieces[type].symbol;
 
 
-            /*
-                القطع السفلية بيضاء
-            */
+            /* القطع السفلية بيضاء */
 
             if (i >= 48) {
 
@@ -225,9 +246,7 @@ function createBoard() {
             square.appendChild(piece);
 
 
-            /*
-                الضغط على المربع نفسه
-            */
+            /* الضغط على القطعة */
 
             square.onclick = function (event) {
 
@@ -247,7 +266,7 @@ function createBoard() {
 }
 
 
-/* عرض المقولة */
+/* إظهار المقولة */
 
 function showPiece(type, square) {
 
@@ -256,37 +275,46 @@ function showPiece(type, square) {
     if (!data) return;
 
 
-    /*
-        إزالة التحديد
-    */
+    /* إزالة التحديد السابق */
 
-    const allSquares = document.querySelectorAll(".square");
-
-    allSquares.forEach(function (item) {
+    document.querySelectorAll(".square").forEach(function (item) {
 
         item.classList.remove("selected");
 
     });
 
 
-    /*
-        تحديد القطعة
-    */
-
     square.classList.add("selected");
 
 
-    /*
-        عرض اسم القطعة
-    */
+    /* تحديد رقم المقولة */
+
+    if (messageIndex[type] === undefined) {
+
+        messageIndex[type] = 0;
+
+    } else {
+
+        messageIndex[type]++;
+
+    }
+
+
+    if (messageIndex[type] >= data.messages.length) {
+
+        messageIndex[type] = 0;
+
+    }
+
+
+    /* عرض اسم القطعة */
 
     pieceName.textContent = data.name;
 
 
-    /*
-        عرض المقولة
-    */
+    /* عرض المقولة */
 
-    message.textContent = data.message;
+    message.textContent =
+        data.messages[messageIndex[type]];
 
 }
