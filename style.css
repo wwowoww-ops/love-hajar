@@ -648,3 +648,328 @@ button:active {
     }
 
 }
+
+/* =========================
+   FINAL POLISH
+========================= */
+
+/* ظهور بطاقة هاجر بعد المقلب */
+#intro {
+    opacity: 0;
+    transform: scale(0.96);
+    transition:
+        opacity 1s ease,
+        transform 1s ease;
+}
+
+#intro.intro-show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+
+/* حركة البطاقة */
+#intro .card {
+    transition:
+        transform 0.5s ease,
+        box-shadow 0.5s ease;
+}
+
+#intro .card:hover {
+    transform: translateY(-4px);
+}
+
+
+/* زر البداية */
+#startBtn {
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.3s ease;
+}
+
+#startBtn:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 8px 28px
+        rgba(155, 93, 229, 0.45);
+}
+
+#startBtn:active {
+    transform: scale(0.94);
+}
+
+
+/* حركة القطعة عند اختيارها */
+.square.has-piece {
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.2s ease;
+}
+
+.square.has-piece:hover {
+    transform: translateY(-3px);
+}
+
+.square.selected {
+    animation:
+        pieceSelected 0.45s ease;
+}
+
+@keyframes pieceSelected {
+
+    0% {
+        transform: scale(1);
+    }
+
+    45% {
+        transform: scale(1.08);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+
+}
+
+
+/* تكبير SVG بشكل بسيط عند المرور */
+.square:hover .svg-chess-piece {
+    transform: scale(1.04);
+}
+
+.svg-chess-piece {
+    transition:
+        transform 0.2s ease;
+}
+
+
+/* الرسالة */
+.message-box {
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
+}
+
+.message-box.message-changing {
+    opacity: 0;
+    transform: translateY(5px);
+}
+
+
+/* لمعة الرقعة */
+.board {
+    position: relative;
+    overflow: hidden;
+}
+
+.board::after {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -120%;
+
+    width: 45%;
+    height: 100%;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,0.13),
+            transparent
+        );
+
+    transform: skewX(-18deg);
+}
+
+.board.board-shine::after {
+    animation:
+        boardShine 1.5s ease;
+}
+
+@keyframes boardShine {
+
+    from {
+        left: -120%;
+    }
+
+    to {
+        left: 140%;
+    }
+
+}
+
+
+/* زر الصوت */
+.sound-button {
+    transition:
+        transform 0.2s ease,
+        background 0.3s ease;
+}
+
+.sound-button:hover {
+    transform: scale(1.08);
+}
+
+.sound-button:active {
+    transform: scale(0.92);
+}
+
+
+/* =========================
+   ENDING
+========================= */
+
+.ending {
+    opacity: 0;
+    transform: scale(0.96);
+
+    transition:
+        opacity 1s ease,
+        transform 1s ease;
+}
+
+.ending.ending-show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+
+/* إخفاء عناصر النهاية في البداية */
+.ending .checkmate,
+.ending h1,
+.ending p,
+.ending .heart {
+    opacity: 0;
+    transform: translateY(12px);
+
+    transition:
+        opacity 0.7s ease,
+        transform 0.7s ease;
+}
+
+
+/* ظهور عناصر النهاية بالتتابع */
+.ending.final-animation .checkmate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.ending.final-animation h1 {
+    opacity: 1;
+    transform: translateY(0);
+
+    transition-delay: 0.35s;
+}
+
+.ending.final-animation p {
+    opacity: 1;
+    transform: translateY(0);
+
+    transition-delay: 0.7s;
+}
+
+.ending.final-animation p:nth-of-type(2) {
+    transition-delay: 1s;
+}
+
+.ending.final-animation p:nth-of-type(3) {
+    transition-delay: 1.3s;
+}
+
+.ending.final-animation .heart {
+    opacity: 1;
+    transform: translateY(0);
+
+    transition-delay: 1.7s;
+}
+
+
+/* نبضة أخف للنهاية */
+.ending .heart {
+    animation:
+        finalHeart 1.7s ease-in-out infinite;
+    animation-delay: 2.3s;
+}
+
+@keyframes finalHeart {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.12);
+    }
+
+}
+
+
+/* انتقال اللعبة */
+.game {
+    opacity: 1;
+    transition:
+        opacity 0.7s ease;
+}
+
+.game.game-hide {
+    opacity: 0;
+}
+
+
+/* شاشة سوداء صغيرة أثناء الانتقال للنهاية */
+#endingTransition {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 99998;
+
+    background: #000;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.8s ease;
+}
+
+#endingTransition.show {
+    opacity: 1;
+}
+
+
+/* الهاتف */
+@media (max-width: 799px) {
+
+    .square.has-piece:hover {
+        transform: none;
+    }
+
+    .square:hover .svg-chess-piece {
+        transform: none;
+    }
+
+}
+
+
+/* اللابتوب */
+@media (min-width: 800px) {
+
+    .square.has-piece {
+        cursor: pointer;
+    }
+
+    .square.has-piece:hover {
+        box-shadow:
+            inset 0 0 0 2px
+            rgba(255,255,255,0.22);
+    }
+
+}
