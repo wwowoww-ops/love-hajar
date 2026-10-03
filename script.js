@@ -22,8 +22,13 @@ function initAudio() {
 
     if (audioContext) return;
 
-    audioContext =
-        new (window.AudioContext || window.webkitAudioContext)();
+    const AudioContext =
+        window.AudioContext ||
+        window.webkitAudioContext;
+
+    if (!AudioContext) return;
+
+    audioContext = new AudioContext();
 
     musicGain = audioContext.createGain();
 
@@ -81,15 +86,21 @@ function cuteChime() {
 
     notes.forEach(function (frequency, index) {
 
-        const oscillator = audioContext.createOscillator();
-        const gain = audioContext.createGain();
+        const oscillator =
+            audioContext.createOscillator();
+
+        const gain =
+            audioContext.createGain();
 
         oscillator.type = "sine";
         oscillator.frequency.value = frequency;
 
         const start = now + index * 0.07;
 
-        gain.gain.setValueAtTime(0.0001, start);
+        gain.gain.setValueAtTime(
+            0.0001,
+            start
+        );
 
         gain.gain.exponentialRampToValueAtTime(
             0.055,
@@ -108,7 +119,6 @@ function cuteChime() {
         oscillator.stop(start + 0.36);
 
     });
-
 }
 
 
@@ -132,19 +142,29 @@ let melodyIndex = 0;
 
 function playBackgroundNote() {
 
-    if (!soundEnabled || !audioContext) return;
+    if (
+        !soundEnabled ||
+        !audioContext ||
+        !musicGain
+    ) return;
 
     const now = audioContext.currentTime;
 
-    const oscillator = audioContext.createOscillator();
-    const gain = audioContext.createGain();
+    const oscillator =
+        audioContext.createOscillator();
+
+    const gain =
+        audioContext.createGain();
 
     oscillator.type = "sine";
 
     oscillator.frequency.value =
         melody[melodyIndex];
 
-    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.setValueAtTime(
+        0.0001,
+        now
+    );
 
     gain.gain.exponentialRampToValueAtTime(
         0.018,
@@ -185,9 +205,15 @@ function startMusic() {
 }
 
 
+/* =========================
+   زر الصوت
+========================= */
+
 function createSoundButton() {
 
-    if (document.getElementById("soundButton")) {
+    if (
+        document.getElementById("soundButton")
+    ) {
         return;
     }
 
@@ -208,7 +234,9 @@ function createSoundButton() {
 
             button.textContent = "♪";
 
-            musicGain.gain.value = 0.035;
+            if (musicGain) {
+                musicGain.gain.value = 0.035;
+            }
 
             startMusic();
 
@@ -218,7 +246,9 @@ function createSoundButton() {
 
             button.textContent = "×";
 
-            musicGain.gain.value = 0;
+            if (musicGain) {
+                musicGain.gain.value = 0;
+            }
 
         }
 
@@ -227,7 +257,7 @@ function createSoundButton() {
 
 
 /* =========================
-   مقولات القطع
+   بيانات القطع
 ========================= */
 
 const pieces = {
@@ -243,7 +273,6 @@ const pieces = {
         ]
     },
 
-
     knight: {
         name: "الحصان",
         symbol: "♞",
@@ -254,7 +283,6 @@ const pieces = {
             "الحصان يقفز فوق كل شيء، وأنت تخطيت كل المسافات ووصلت إلي."
         ]
     },
-
 
     bishop: {
         name: "الفيل",
@@ -267,7 +295,6 @@ const pieces = {
         ]
     },
 
-
     rook: {
         name: "الرخ",
         symbol: "♜",
@@ -279,7 +306,6 @@ const pieces = {
         ]
     },
 
-
     queen: {
         name: "الملكة",
         symbol: "♛",
@@ -290,7 +316,6 @@ const pieces = {
             "لو كانت لهذه الرقعة قطعة تشبهك، فستكون الملكة."
         ]
     },
-
 
     king: {
         name: "الملك",
@@ -307,13 +332,12 @@ const pieces = {
 
 
 /* =========================
-   الرقعة الصحيحة
-   8 × 8 = 64 خانة
+   الرقعة
+   64 خانة فقط
 ========================= */
 
 const layout = [
 
-    /* الصف 1 */
     "rook",
     "knight",
     "bishop",
@@ -323,7 +347,6 @@ const layout = [
     "knight",
     "rook",
 
-    /* الصف 2 */
     "pawn",
     "pawn",
     "pawn",
@@ -333,7 +356,6 @@ const layout = [
     "pawn",
     "pawn",
 
-    /* الصف 3 */
     "",
     "",
     "",
@@ -343,7 +365,6 @@ const layout = [
     "",
     "",
 
-    /* الصف 4 */
     "",
     "",
     "",
@@ -353,7 +374,6 @@ const layout = [
     "",
     "",
 
-    /* الصف 5 */
     "",
     "",
     "",
@@ -363,7 +383,6 @@ const layout = [
     "",
     "",
 
-    /* الصف 6 */
     "",
     "",
     "",
@@ -373,7 +392,6 @@ const layout = [
     "",
     "",
 
-    /* الصف 7 */
     "pawn",
     "pawn",
     "pawn",
@@ -383,7 +401,6 @@ const layout = [
     "pawn",
     "pawn",
 
-    /* الصف 8 */
     "rook",
     "knight",
     "bishop",
@@ -396,7 +413,18 @@ const layout = [
 ];
 
 
-/* حفظ آخر مقولة */
+/* حماية إضافية */
+
+if (layout.length !== 64) {
+    console.error(
+        "خطأ: الرقعة يجب أن تحتوي على 64 خانة."
+    );
+}
+
+
+/* =========================
+   حفظ آخر مقولة
+========================= */
 
 const messageIndex = {};
 
@@ -409,7 +437,10 @@ startBtn.onclick = function () {
 
     initAudio();
 
-    if (audioContext.state === "suspended") {
+    if (
+        audioContext &&
+        audioContext.state === "suspended"
+    ) {
         audioContext.resume();
     }
 
@@ -425,12 +456,14 @@ startBtn.onclick = function () {
 
     createSoundButton();
 
-    document
-        .getElementById("soundButton")
-        .classList.add("show");
+    const soundButton =
+        document.getElementById("soundButton");
+
+    if (soundButton) {
+        soundButton.classList.add("show");
+    }
 
     createBoard();
-
 };
 
 
@@ -440,20 +473,33 @@ startBtn.onclick = function () {
 
 function createBoard() {
 
-    board.innerHTML = "";
+    /*
+       تنظيف الرقعة بالكامل
+       قبل إنشاء أي شيء جديد
+    */
+
+    board.replaceChildren();
+
+    /*
+       التأكد من وجود 64 خانة
+    */
 
     for (let i = 0; i < 64; i++) {
 
         const square =
             document.createElement("div");
 
-        square.className = "square";
+        square.classList.add("square");
 
+        /*
+           لون الخانة
+        */
 
-        /* لون المربع */
+        const row =
+            Math.floor(i / 8);
 
-        const row = Math.floor(i / 8);
-        const col = i % 8;
+        const col =
+            i % 8;
 
         if ((row + col) % 2 === 0) {
 
@@ -466,66 +512,147 @@ function createBoard() {
         }
 
 
-        /* نوع القطعة */
+        /*
+           نوع القطعة
+        */
 
         const type = layout[i];
 
 
-        if (type !== "") {
+        /*
+           لا توجد قطعة
+        */
 
-            square.classList.add("has-piece");
+        if (!type) {
 
+            board.appendChild(square);
 
-            /* إنشاء القطعة */
-
-            const piece =
-                document.createElement("span");
-
-            piece.className =
-                "chess-piece";
-
-            piece.textContent =
-                pieces[type].symbol;
+            continue;
+        }
 
 
-            /* القطع السفلية بيضاء */
+        /*
+           التأكد من أن النوع موجود
+        */
 
-            if (i >= 48) {
+        if (!pieces[type]) {
 
-                piece.classList.add(
-                    "white-piece"
-                );
+            console.error(
+                "قطعة غير معروفة:",
+                type
+            );
 
-            } else {
+            board.appendChild(square);
 
-                piece.classList.add(
-                    "black-piece"
-                );
-
-            }
-
-
-            square.appendChild(piece);
+            continue;
+        }
 
 
-            /* الضغط */
+        /*
+           وضع علامة أن الخانة تحتوي قطعة
+        */
 
-            square.onclick =
-                function (event) {
+        square.classList.add("has-piece");
 
-                    event.stopPropagation();
 
-                    showPiece(
-                        type,
-                        square
-                    );
+        /*
+           إنشاء عنصر القطعة
+        */
 
-                };
+        const piece =
+            document.createElement("span");
+
+        piece.classList.add(
+            "chess-piece"
+        );
+
+
+        /*
+           إضافة اللون
+        */
+
+        if (i < 16) {
+
+            piece.classList.add(
+                "black-piece"
+            );
+
+        } else if (i >= 48) {
+
+            piece.classList.add(
+                "white-piece"
+            );
 
         }
 
 
+        /*
+           الرمز
+        */
+
+        piece.textContent =
+            pieces[type].symbol;
+
+
+        /*
+           منع القطعة من التأثير
+           على الضغط
+        */
+
+        piece.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+        piece.style.pointerEvents =
+            "none";
+
+
+        /*
+           إضافة القطعة للخانة
+        */
+
+        square.appendChild(piece);
+
+
+        /*
+           الضغط على القطعة
+        */
+
+        square.addEventListener(
+            "click",
+            function () {
+
+                showPiece(
+                    type,
+                    square
+                );
+
+            }
+        );
+
+
+        /*
+           إضافة الخانة للرقعة
+        */
+
         board.appendChild(square);
+
+    }
+
+
+    /*
+       حماية إضافية:
+       الرقعة يجب أن تحتوي على 64
+       خانة فقط
+    */
+
+    if (board.children.length !== 64) {
+
+        console.error(
+            "خطأ: عدد الخانات هو",
+            board.children.length
+        );
 
     }
 
@@ -543,8 +670,14 @@ function showPiece(type, square) {
     if (!data) return;
 
 
+    /*
+       إزالة التحديد القديم
+    */
+
     document
-        .querySelectorAll(".square")
+        .querySelectorAll(
+            ".square.selected"
+        )
         .forEach(function (item) {
 
             item.classList.remove(
@@ -554,10 +687,22 @@ function showPiece(type, square) {
         });
 
 
-    square.classList.add("selected");
+    /*
+       تحديد القطعة
+    */
+
+    square.classList.add(
+        "selected"
+    );
 
 
-    if (messageIndex[type] === undefined) {
+    /*
+       اختيار المقولة التالية
+    */
+
+    if (
+        messageIndex[type] === undefined
+    ) {
 
         messageIndex[type] = 0;
 
