@@ -1,21 +1,46 @@
-const startBtn = document.getElementById("startBtn");
+const startBtn =
+    document.getElementById(
+        "startBtn"
+    );
 
-const intro = document.getElementById("intro");
-const game = document.getElementById("game");
-const board = document.getElementById("board");
+const intro =
+    document.getElementById(
+        "intro"
+    );
 
-const pieceName = document.getElementById("pieceName");
-const message = document.getElementById("message");
+const game =
+    document.getElementById(
+        "game"
+    );
+
+const board =
+    document.getElementById(
+        "board"
+    );
+
+const pieceName =
+    document.getElementById(
+        "pieceName"
+    );
+
+const message =
+    document.getElementById(
+        "message"
+    );
 
 
-/* =========================
-   الأصوات
-========================= */
+/* =========================================================
+   AUDIO
+========================================================= */
 
 let audioContext = null;
+
 let musicGain = null;
+
 let musicTimer = null;
+
 let soundEnabled = true;
+
 
 function initAudio() {
 
@@ -27,106 +52,180 @@ function initAudio() {
 
     if (!AudioContext) return;
 
-    audioContext = new AudioContext();
+    audioContext =
+        new AudioContext();
 
-    musicGain = audioContext.createGain();
-    musicGain.gain.value = 0.035;
+    musicGain =
+        audioContext.createGain();
 
-    musicGain.connect(audioContext.destination);
+    musicGain.gain.value =
+        0.055;
+
+    musicGain.connect(
+        audioContext.destination
+    );
+
 }
 
 
+/* =========================================================
+   POP SOUND
+========================================================= */
+
 function cutePop() {
 
-    if (!soundEnabled || !audioContext) return;
+    if (
+        !soundEnabled ||
+        !audioContext
+    ) return;
 
-    const now = audioContext.currentTime;
+    const now =
+        audioContext.currentTime;
 
-    const oscillator = audioContext.createOscillator();
-    const gain = audioContext.createGain();
+    const oscillator =
+        audioContext.createOscillator();
 
-    oscillator.type = "sine";
+    const gain =
+        audioContext.createGain();
 
-    oscillator.frequency.setValueAtTime(520, now);
+    oscillator.type =
+        "sine";
 
-    oscillator.frequency.exponentialRampToValueAtTime(
-        760,
-        now + 0.08
+    oscillator.frequency.setValueAtTime(
+        560,
+        now
     );
 
-    gain.gain.setValueAtTime(0.0001, now);
+    oscillator.frequency.exponentialRampToValueAtTime(
+        820,
+        now + 0.09
+    );
+
+    gain.gain.setValueAtTime(
+        0.0001,
+        now
+    );
 
     gain.gain.exponentialRampToValueAtTime(
-        0.13,
+        0.22,
         now + 0.015
     );
 
     gain.gain.exponentialRampToValueAtTime(
         0.0001,
-        now + 0.16
+        now + 0.20
     );
 
     oscillator.connect(gain);
-    gain.connect(audioContext.destination);
+
+    gain.connect(
+        audioContext.destination
+    );
 
     oscillator.start(now);
-    oscillator.stop(now + 0.17);
+
+    oscillator.stop(
+        now + 0.21
+    );
+
 }
 
+
+/* =========================================================
+   CHIME
+========================================================= */
 
 function cuteChime() {
 
-    if (!soundEnabled || !audioContext) return;
+    if (
+        !soundEnabled ||
+        !audioContext
+    ) return;
 
-    const now = audioContext.currentTime;
+    const now =
+        audioContext.currentTime;
 
-    [659, 784].forEach(function (frequency, index) {
+    const notes = [
+        659,
+        784,
+        988
+    ];
 
-        const oscillator = audioContext.createOscillator();
-        const gain = audioContext.createGain();
+    notes.forEach(
+        function (
+            frequency,
+            index
+        ) {
 
-        oscillator.type = "sine";
-        oscillator.frequency.value = frequency;
+            const oscillator =
+                audioContext.createOscillator();
 
-        const start = now + index * 0.07;
+            const gain =
+                audioContext.createGain();
 
-        gain.gain.setValueAtTime(0.0001, start);
+            oscillator.type =
+                "sine";
 
-        gain.gain.exponentialRampToValueAtTime(
-            0.055,
-            start + 0.02
-        );
+            oscillator.frequency.value =
+                frequency;
 
-        gain.gain.exponentialRampToValueAtTime(
-            0.0001,
-            start + 0.35
-        );
+            const start =
+                now +
+                index * 0.08;
 
-        oscillator.connect(gain);
-        gain.connect(audioContext.destination);
+            gain.gain.setValueAtTime(
+                0.0001,
+                start
+            );
 
-        oscillator.start(start);
-        oscillator.stop(start + 0.36);
-    });
+            gain.gain.exponentialRampToValueAtTime(
+                0.10,
+                start + 0.025
+            );
+
+            gain.gain.exponentialRampToValueAtTime(
+                0.0001,
+                start + 0.42
+            );
+
+            oscillator.connect(gain);
+
+            gain.connect(
+                audioContext.destination
+            );
+
+            oscillator.start(start);
+
+            oscillator.stop(
+                start + 0.43
+            );
+
+        }
+    );
+
 }
 
 
-/* =========================
-   موسيقى الخلفية
-========================= */
+/* =========================================================
+   BACKGROUND MUSIC
+========================================================= */
 
 const melody = [
+
     523.25,
     659.25,
     783.99,
     659.25,
+
     587.33,
     698.46,
     880,
     698.46
+
 ];
 
 let melodyIndex = 0;
+
 
 function playBackgroundNote() {
 
@@ -136,12 +235,17 @@ function playBackgroundNote() {
         !musicGain
     ) return;
 
-    const now = audioContext.currentTime;
+    const now =
+        audioContext.currentTime;
 
-    const oscillator = audioContext.createOscillator();
-    const gain = audioContext.createGain();
+    const oscillator =
+        audioContext.createOscillator();
 
-    oscillator.type = "sine";
+    const gain =
+        audioContext.createGain();
+
+    oscillator.type =
+        "sine";
 
     oscillator.frequency.value =
         melody[melodyIndex];
@@ -152,26 +256,38 @@ function playBackgroundNote() {
     );
 
     gain.gain.exponentialRampToValueAtTime(
-        0.018,
+        0.028,
         now + 0.12
     );
 
     gain.gain.exponentialRampToValueAtTime(
         0.0001,
-        now + 1.2
+        now + 1.25
     );
 
     oscillator.connect(gain);
-    gain.connect(musicGain);
+
+    gain.connect(
+        musicGain
+    );
 
     oscillator.start(now);
-    oscillator.stop(now + 1.25);
+
+    oscillator.stop(
+        now + 1.3
+    );
 
     melodyIndex++;
 
-    if (melodyIndex >= melody.length) {
+    if (
+        melodyIndex >=
+        melody.length
+    ) {
+
         melodyIndex = 0;
+
     }
+
 }
 
 
@@ -183,129 +299,201 @@ function startMusic() {
 
     playBackgroundNote();
 
-    musicTimer = setInterval(
-        playBackgroundNote,
-        900
-    );
+    musicTimer =
+        setInterval(
+            playBackgroundNote,
+            900
+        );
+
 }
 
 
-/* =========================
-   زر الصوت
-========================= */
+/* =========================================================
+   SOUND BUTTON
+========================================================= */
 
 function createSoundButton() {
 
-    if (document.getElementById("soundButton")) {
-        return;
-    }
+    if (
+        document.getElementById(
+            "soundButton"
+        )
+    ) return;
 
-    const button = document.createElement("button");
+    const button =
+        document.createElement(
+            "button"
+        );
 
-    button.className = "sound-button";
-    button.id = "soundButton";
-    button.textContent = "♪";
+    button.className =
+        "sound-button";
 
-    document.body.appendChild(button);
+    button.id =
+        "soundButton";
 
-    button.onclick = function () {
+    button.textContent =
+        "♪";
 
-        soundEnabled = !soundEnabled;
+    document.body.appendChild(
+        button
+    );
 
-        if (soundEnabled) {
 
-            button.textContent = "♪";
+    button.onclick =
+        function () {
 
-            if (musicGain) {
-                musicGain.gain.value = 0.035;
+            soundEnabled =
+                !soundEnabled;
+
+
+            if (soundEnabled) {
+
+                button.textContent =
+                    "♪";
+
+                if (musicGain) {
+
+                    musicGain.gain.value =
+                        0.055;
+
+                }
+
+                startMusic();
+
+                cutePop();
+
+            } else {
+
+                button.textContent =
+                    "×";
+
+                if (musicGain) {
+
+                    musicGain.gain.value =
+                        0;
+
+                }
+
             }
 
-            startMusic();
-            cutePop();
+        };
 
-        } else {
-
-            button.textContent = "×";
-
-            if (musicGain) {
-                musicGain.gain.value = 0;
-            }
-        }
-    };
 }
 
 
-/* =========================
-   بيانات القطع
-========================= */
+/* =========================================================
+   PIECES
+========================================================= */
 
 const pieces = {
 
     pawn: {
+
         name: "البيدق",
 
         messages: [
+
             "بدأت بخطوة صغيرة لكنك أصبحت شيئا كبيرا بالنسبة لي.",
+
             "كل شيء جميل يبدأ بخطوة بسيطة.",
+
             "ربما هي أصغر قطعة لكنها تذكرني ببداية قصتنا."
+
         ]
+
     },
 
+
     knight: {
+
         name: "الحصان",
 
         messages: [
+
             "تحركت بطريقة مختلفة ودخلت حياتي بطريقة مختلفة.",
+
             "طريقك مختلف عن الجميع وهذا ما جعلني أتعلق بك.",
+
             "الحصان يقفز فوق كل شيء، وأنت تخطيت كل المسافات ووصلت إلي."
+
         ]
+
     },
 
+
     bishop: {
+
         name: "الفيل",
 
         messages: [
+
             "مهما اختلف الطريق تبقين قريبة مني.",
+
             "طريقه مختلف، لكن نهايته دائما تصل إلى مكان ما.",
+
             "حتى عندما لا يكون الطريق مستقيما، وجودك يجعل الوصول جميلا."
+
         ]
+
     },
 
+
     rook: {
+
         name: "الرخ",
 
         messages: [
+
             "وجودك في حياتي شيء ثابت لا يتغير.",
+
             "الرخ يبقى ثابتا وقويا، وهذا ما أتمناه لوجودك معي.",
+
             "أحب الأشياء التي تبقى، وأنت واحدة منها."
+
         ]
+
     },
 
+
     queen: {
+
         name: "الملكة",
 
         messages: [
+
             "من بين كل القطع أنت القطعة التي تعني لي أكثر.",
+
             "الملكة تستطيع الوصول إلى كل مكان، وأنت وصلت إلى قلبي.",
+
             "لو كانت لهذه الرقعة قطعة تشبهك، فستكون الملكة."
+
         ]
+
     },
 
+
     king: {
+
         name: "الملك",
 
         messages: [
+
             "قد تكون حركته قليلة لكنه أهم قطعة، مثلك عندي تماما.",
+
             "ليس المهم عدد الخطوات، بل المكانة التي تملكها.",
+
             "هناك قطع كثيرة في الرقعة، لكن عيني دائما تبحث عنك."
+
         ]
+
     }
+
 };
 
 
-/* =========================
-   ترتيب الرقعة
-========================= */
+/* =========================================================
+   BOARD LAYOUT
+========================================================= */
 
 const layout = [
 
@@ -380,28 +568,66 @@ const layout = [
     "bishop",
     "knight",
     "rook"
+
 ];
 
-
-/* =========================
-   آخر مقولة
-========================= */
 
 const messageIndex = {};
 
 
 /* =========================================================
-   SVG CHESS PIECES
+   SVG ELEMENT
 ========================================================= */
 
-function createChessSVG(type, white) {
+function svgElement(
+    svgNS,
+    name,
+    attributes
+) {
 
-    const svgNS = "http://www.w3.org/2000/svg";
+    const element =
+        document.createElementNS(
+            svgNS,
+            name
+        );
 
-    const svg = document.createElementNS(
-        svgNS,
-        "svg"
-    );
+
+    for (
+        const key in attributes
+    ) {
+
+        element.setAttribute(
+            key,
+            attributes[key]
+        );
+
+    }
+
+
+    return element;
+
+}
+
+
+/* =========================================================
+   CREATE CHESS SVG
+========================================================= */
+
+function createChessSVG(
+    type,
+    white
+) {
+
+    const svgNS =
+        "http://www.w3.org/2000/svg";
+
+
+    const svg =
+        document.createElementNS(
+            svgNS,
+            "svg"
+        );
+
 
     svg.setAttribute(
         "viewBox",
@@ -413,492 +639,537 @@ function createChessSVG(type, white) {
         "svg-chess-piece"
     );
 
-    svg.setAttribute(
-        "aria-hidden",
-        "true"
-    );
 
-    svg.style.width = "82%";
-    svg.style.height = "82%";
-    svg.style.display = "block";
-    svg.style.overflow = "visible";
-    svg.style.pointerEvents = "none";
-
-    const mainColor = white
-        ? "#ffffff"
-        : "#17101f";
-
-    const strokeColor = white
-        ? "#6f587e"
-        : "#000000";
-
-    function element(name, attributes) {
-
-        const el =
-            document.createElementNS(
-                svgNS,
-                name
-            );
-
-        Object.keys(attributes).forEach(function (key) {
-
-            el.setAttribute(
-                key,
-                attributes[key]
-            );
-
-        });
-
-        return el;
-    }
+    const fill =
+        white
+            ? "#ffffff"
+            : "#18121d";
 
 
-    function addBase() {
+    const stroke =
+        white
+            ? "#71577e"
+            : "#050308";
 
-        const base = element(
+
+    function path(d) {
+
+        return svgElement(
+            svgNS,
             "path",
             {
-                d:
-                    "M18 88 Q18 83 25 81 " +
-                    "L75 81 Q82 83 82 88 " +
-                    "Q82 92 76 93 " +
-                    "L24 93 Q18 92 18 88 Z",
 
-                fill: mainColor,
-                stroke: strokeColor,
-                "stroke-width": "2"
+                d: d,
+
+                fill: fill,
+
+                stroke: stroke,
+
+                "stroke-width": "1.8",
+
+                "stroke-linejoin":
+                    "round"
+
             }
         );
 
-        svg.appendChild(base);
     }
 
 
-    /* =========================
-       البيدق
-    ========================= */
+    function ellipse(
+        cx,
+        cy,
+        rx,
+        ry
+    ) {
+
+        return svgElement(
+            svgNS,
+            "ellipse",
+            {
+
+                cx: cx,
+                cy: cy,
+
+                rx: rx,
+                ry: ry,
+
+                fill: fill,
+
+                stroke: stroke,
+
+                "stroke-width": "1.8"
+
+            }
+        );
+
+    }
+
+
+    function circle(
+        cx,
+        cy,
+        r
+    ) {
+
+        return svgElement(
+            svgNS,
+            "circle",
+            {
+
+                cx: cx,
+                cy: cy,
+
+                r: r,
+
+                fill: fill,
+
+                stroke: stroke,
+
+                "stroke-width": "1.8"
+
+            }
+        );
+
+    }
+
+
+    function base() {
+
+        svg.appendChild(
+            ellipse(
+                50,
+                87,
+                32,
+                6
+            )
+        );
+
+
+        svg.appendChild(
+            path(
+                "M22 86 " +
+                "Q24 78 32 76 " +
+                "L68 76 " +
+                "Q76 78 78 86 " +
+                "Z"
+            )
+        );
+
+    }
+
+
+    /* =====================================
+       PAWN
+    ===================================== */
 
     if (type === "pawn") {
 
-        const body = element(
-            "path",
-            {
-                d:
-                    "M39 35 " +
-                    "Q32 28 36 21 " +
-                    "Q40 14 50 14 " +
-                    "Q60 14 64 21 " +
-                    "Q68 28 61 35 " +
-                    "L67 59 " +
-                    "Q69 66 76 75 " +
-                    "L24 75 " +
-                    "Q31 66 33 59 Z",
-
-                fill: mainColor,
-                stroke: strokeColor,
-                "stroke-width": "2"
-            }
+        svg.appendChild(
+            circle(
+                50,
+                24,
+                12
+            )
         );
 
-        svg.appendChild(body);
 
-        addBase();
+        svg.appendChild(
+            path(
+                "M42 34 " +
+                "Q46 39 43 48 " +
+                "L37 68 " +
+                "Q35 73 30 77 " +
+                "L70 77 " +
+                "Q65 73 63 68 " +
+                "L57 48 " +
+                "Q54 39 58 34 " +
+                "Z"
+            )
+        );
+
+
+        base();
+
     }
 
 
-    /* =========================
-       الرخ
-    ========================= */
+    /* =====================================
+       ROOK
+    ===================================== */
 
     else if (type === "rook") {
 
-        const top = element(
-            "path",
-            {
-                d:
-                    "M25 20 L25 30 " +
-                    "L31 30 L31 20 " +
-                    "L39 20 L39 30 " +
-                    "L47 30 L47 20 " +
-                    "L55 20 L55 30 " +
-                    "L63 30 L63 20 " +
-                    "L75 20 " +
-                    "L72 38 L68 38 " +
-                    "L68 67 " +
-                    "L76 81 L24 81 " +
-                    "L32 67 L32 38 L28 38 Z",
-
-                fill: mainColor,
-                stroke: strokeColor,
-                "stroke-width": "2",
-                "stroke-linejoin": "round"
-            }
+        svg.appendChild(
+            path(
+                "M29 20 " +
+                "L29 31 " +
+                "L35 31 " +
+                "L35 20 " +
+                "L43 20 " +
+                "L43 31 " +
+                "L50 31 " +
+                "L50 20 " +
+                "L57 20 " +
+                "L57 31 " +
+                "L65 31 " +
+                "L65 20 " +
+                "L71 20 " +
+                "L70 38 " +
+                "L65 41 " +
+                "L64 67 " +
+                "Q65 72 72 77 " +
+                "L28 77 " +
+                "Q35 72 36 67 " +
+                "L35 41 " +
+                "L30 38 " +
+                "Z"
+            )
         );
 
-        svg.appendChild(top);
 
-        addBase();
+        base();
+
     }
 
 
-    /* =========================
-       الفيل
-    ========================= */
+    /* =====================================
+       BISHOP
+    ===================================== */
 
     else if (type === "bishop") {
 
-        const body = element(
-            "path",
-            {
-                d:
-                    "M50 13 " +
-                    "Q61 20 61 30 " +
-                    "Q61 39 55 45 " +
-                    "L65 69 " +
-                    "Q67 74 74 81 " +
-                    "L26 81 " +
-                    "Q33 74 35 69 " +
-                    "L45 45 " +
-                    "Q39 39 39 30 " +
-                    "Q39 20 50 13 Z",
-
-                fill: mainColor,
-                stroke: strokeColor,
-                "stroke-width": "2"
-            }
+        svg.appendChild(
+            path(
+                "M50 12 " +
+                "Q63 20 61 32 " +
+                "Q60 40 55 46 " +
+                "L62 67 " +
+                "Q64 73 72 77 " +
+                "L28 77 " +
+                "Q36 73 38 67 " +
+                "L45 46 " +
+                "Q40 40 39 32 " +
+                "Q37 20 50 12 Z"
+            )
         );
 
-        svg.appendChild(body);
 
-        const slash = element(
-            "path",
-            {
-                d: "M44 33 L57 20",
-                fill: "none",
-                stroke: white
-                    ? "#8c729c"
-                    : "#8f789c",
-                "stroke-width": "4",
-                "stroke-linecap": "round"
-            }
+        svg.appendChild(
+            path(
+                "M44 34 L56 20"
+            )
         );
 
-        svg.appendChild(slash);
 
-        addBase();
+        base();
+
     }
 
 
-    /* =========================
-       الحصان
-    ========================= */
+    /* =====================================
+       KNIGHT
+    ===================================== */
 
     else if (type === "knight") {
 
-        const body = element(
-            "path",
-            {
-                d:
-                    "M30 82 " +
-                    "Q39 70 40 58 " +
-                    "Q39 48 34 39 " +
-                    "Q30 31 35 19 " +
-                    "Q45 24 54 19 " +
-                    "Q66 16 70 26 " +
-                    "Q73 34 67 41 " +
-                    "Q62 47 57 51 " +
-                    "Q61 60 67 67 " +
-                    "Q71 73 78 82 Z",
-
-                fill: mainColor,
-                stroke: strokeColor,
-                "stroke-width": "2",
-                "stroke-linejoin": "round"
-            }
+        svg.appendChild(
+            path(
+                "M31 77 " +
+                "Q39 69 40 57 " +
+                "Q40 48 34 39 " +
+                "Q29 30 35 18 " +
+                "Q45 22 52 20 " +
+                "Q63 17 69 25 " +
+                "Q75 34 68 42 " +
+                "Q63 48 56 51 " +
+                "Q60 60 67 67 " +
+                "Q71 72 77 77 " +
+                "Z"
+            )
         );
 
-        svg.appendChild(body);
 
-        const mane = element(
-            "path",
-            {
-                d:
-                    "M38 25 Q48 32 62 28",
-
-                fill: "none",
-                stroke: white
-                    ? "#8c729c"
-                    : "#8f789c",
-                "stroke-width": "2",
-                "stroke-linecap": "round"
-            }
+        svg.appendChild(
+            path(
+                "M38 26 " +
+                "Q49 32 61 28"
+            )
         );
 
-        svg.appendChild(mane);
 
-        const eye = element(
-            "circle",
-            {
-                cx: "58",
-                cy: "29",
-                r: "2.2",
-                fill: white
-                    ? "#6d547c"
-                    : "#ffffff"
-            }
+        svg.appendChild(
+            circle(
+                58,
+                29,
+                2
+            )
         );
 
-        svg.appendChild(eye);
 
-        addBase();
+        base();
+
     }
 
 
-    /* =========================
-       الملكة
-    ========================= */
+    /* =====================================
+       QUEEN
+    ===================================== */
 
     else if (type === "queen") {
 
-        const crown = element(
-            "path",
-            {
-                d:
-                    "M25 25 " +
-                    "L34 39 " +
-                    "L42 21 " +
-                    "L50 39 " +
-                    "L58 21 " +
-                    "L66 39 " +
-                    "L75 25 " +
-                    "L69 55 " +
-                    "L31 55 Z",
-
-                fill: mainColor,
-                stroke: strokeColor,
-                "stroke-width": "2",
-                "stroke-linejoin": "round"
-            }
+        svg.appendChild(
+            path(
+                "M27 29 " +
+                "L35 44 " +
+                "L43 22 " +
+                "L50 43 " +
+                "L57 22 " +
+                "L65 44 " +
+                "L73 29 " +
+                "L68 54 " +
+                "L32 54 " +
+                "Z"
+            )
         );
 
-        svg.appendChild(crown);
 
-        [25, 42, 58, 75].forEach(function (x) {
-
-            const ball = element(
-                "circle",
-                {
-                    cx: x,
-                    cy: x === 25 || x === 75
-                        ? "25"
-                        : "21",
-                    r: "4",
-                    fill: mainColor,
-                    stroke: strokeColor,
-                    "stroke-width": "2"
-                }
-            );
-
-            svg.appendChild(ball);
-        });
-
-        const body = element(
-            "path",
-            {
-                d:
-                    "M32 55 " +
-                    "L68 55 " +
-                    "L65 69 " +
-                    "Q67 75 75 81 " +
-                    "L25 81 " +
-                    "Q33 75 35 69 Z",
-
-                fill: mainColor,
-                stroke: strokeColor,
-                "stroke-width": "2"
-            }
+        svg.appendChild(
+            circle(
+                27,
+                29,
+                4
+            )
         );
 
-        svg.appendChild(body);
 
-        addBase();
+        svg.appendChild(
+            circle(
+                43,
+                22,
+                4
+            )
+        );
+
+
+        svg.appendChild(
+            circle(
+                57,
+                22,
+                4
+            )
+        );
+
+
+        svg.appendChild(
+            circle(
+                73,
+                29,
+                4
+            )
+        );
+
+
+        svg.appendChild(
+            path(
+                "M35 54 " +
+                "L65 54 " +
+                "L63 68 " +
+                "Q64 73 72 77 " +
+                "L28 77 " +
+                "Q36 73 37 68 " +
+                "Z"
+            )
+        );
+
+
+        base();
+
     }
 
 
-    /* =========================
-       الملك
-    ========================= */
+    /* =====================================
+       KING
+    ===================================== */
 
     else if (type === "king") {
 
-        const cross = element(
-            "path",
-            {
-                d:
-                    "M45 9 L55 9 " +
-                    "L55 18 L64 18 " +
-                    "L64 27 L55 27 " +
-                    "L55 36 L45 36 " +
-                    "L45 27 L36 27 " +
-                    "L36 18 L45 18 Z",
-
-                fill: mainColor,
-                stroke: strokeColor,
-                "stroke-width": "2",
-                "stroke-linejoin": "round"
-            }
+        svg.appendChild(
+            path(
+                "M45 9 " +
+                "L55 9 " +
+                "L55 19 " +
+                "L64 19 " +
+                "L64 28 " +
+                "L55 28 " +
+                "L55 37 " +
+                "L45 37 " +
+                "L45 28 " +
+                "L36 28 " +
+                "L36 19 " +
+                "L45 19 " +
+                "Z"
+            )
         );
 
-        svg.appendChild(cross);
 
-        const body = element(
-            "path",
-            {
-                d:
-                    "M39 38 " +
-                    "L61 38 " +
-                    "L64 56 " +
-                    "L67 69 " +
-                    "Q69 75 76 81 " +
-                    "L24 81 " +
-                    "Q31 75 33 69 " +
-                    "L36 56 Z",
-
-                fill: mainColor,
-                stroke: strokeColor,
-                "stroke-width": "2"
-            }
+        svg.appendChild(
+            path(
+                "M38 39 " +
+                "L62 39 " +
+                "L64 55 " +
+                "L67 68 " +
+                "Q68 73 74 77 " +
+                "L26 77 " +
+                "Q32 73 33 68 " +
+                "L36 55 " +
+                "Z"
+            )
         );
 
-        svg.appendChild(body);
 
-        addBase();
+        base();
+
     }
 
 
     return svg;
+
 }
 
 
-/* =========================
-   بدء الموقع
-========================= */
+/* =========================================================
+   START BUTTON
+========================================================= */
 
-startBtn.onclick = function () {
+startBtn.onclick =
+    function () {
 
-    initAudio();
+        initAudio();
 
-    if (
-        audioContext &&
-        audioContext.state === "suspended"
-    ) {
-        audioContext.resume();
-    }
 
-    cutePop();
+        if (
+            audioContext &&
+            audioContext.state ===
+            "suspended"
+        ) {
 
-    setTimeout(function () {
-        startMusic();
-    }, 250);
+            audioContext.resume();
 
-    intro.classList.add("hidden");
+        }
 
-    game.classList.remove("hidden");
 
-    createSoundButton();
+        cutePop();
 
-    const soundButton =
-        document.getElementById(
-            "soundButton"
+
+        setTimeout(
+            function () {
+
+                startMusic();
+
+            },
+            250
         );
 
-    if (soundButton) {
-        soundButton.classList.add("show");
-    }
 
-    createBoard();
-};
+        intro.classList.add(
+            "hidden"
+        );
 
 
-/* =========================
-   إنشاء الرقعة
-========================= */
+        game.classList.remove(
+            "hidden"
+        );
+
+
+        createSoundButton();
+
+
+        const soundButton =
+            document.getElementById(
+                "soundButton"
+            );
+
+
+        if (soundButton) {
+
+            soundButton.classList.add(
+                "show"
+            );
+
+        }
+
+
+        createBoard();
+
+    };
+
+
+/* =========================================================
+   CREATE BOARD
+========================================================= */
 
 function createBoard() {
-
-    /*
-       تنظيف كامل للرقعة
-    */
 
     board.replaceChildren();
 
 
-    /*
-       إنشاء 64 خانة فقط
-    */
-
-    for (let i = 0; i < 64; i++) {
+    for (
+        let i = 0;
+        i < 64;
+        i++
+    ) {
 
         const square =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
-        square.className = "square";
 
+        square.className =
+            "square";
 
-        /*
-           لون الخانة
-        */
 
         const row =
-            Math.floor(i / 8);
+            Math.floor(
+                i / 8
+            );
+
 
         const col =
             i % 8;
 
-        if ((row + col) % 2 === 0) {
 
-            square.classList.add("light");
+        if (
+            (row + col) % 2 ===
+            0
+        ) {
+
+            square.classList.add(
+                "light"
+            );
 
         } else {
 
-            square.classList.add("dark");
+            square.classList.add(
+                "dark"
+            );
 
         }
 
 
-        /*
-           نوع القطعة
-        */
+        const type =
+            layout[i];
 
-        const type = layout[i];
-
-
-        /*
-           خانة فارغة
-        */
 
         if (!type) {
 
-            board.appendChild(square);
-
-            continue;
-        }
-
-
-        /*
-           التحقق من القطعة
-        */
-
-        if (!pieces[type]) {
-
-            console.error(
-                "نوع قطعة غير معروف:",
-                type
+            board.appendChild(
+                square
             );
 
-            board.appendChild(square);
-
             continue;
+
         }
 
 
@@ -907,11 +1178,9 @@ function createBoard() {
         );
 
 
-        /*
-           القطعة SVG
-        */
+        const isWhite =
+            i >= 48;
 
-        const isWhite = i >= 48;
 
         const svg =
             createChessSVG(
@@ -920,35 +1189,17 @@ function createBoard() {
             );
 
 
-        /*
-           إضافة class حسب اللون
-        */
-
-        if (isWhite) {
-
-            svg.classList.add(
-                "white-piece"
-            );
-
-        } else {
-
-            svg.classList.add(
-                "black-piece"
-            );
-
-        }
+        svg.classList.add(
+            isWhite
+                ? "white-piece"
+                : "black-piece"
+        );
 
 
-        /*
-           إضافة القطعة للخانة
-        */
+        square.appendChild(
+            svg
+        );
 
-        square.appendChild(svg);
-
-
-        /*
-           الضغط
-        */
 
         square.addEventListener(
             "click",
@@ -963,32 +1214,27 @@ function createBoard() {
         );
 
 
-        board.appendChild(square);
-    }
-
-
-    /*
-       فحص نهائي
-    */
-
-    if (board.children.length !== 64) {
-
-        console.error(
-            "خطأ: عدد الخانات:",
-            board.children.length
+        board.appendChild(
+            square
         );
 
     }
+
 }
 
 
-/* =========================
-   إظهار المقولة
-========================= */
+/* =========================================================
+   PIECE MESSAGE
+========================================================= */
 
-function showPiece(type, square) {
+function showPiece(
+    type,
+    square
+) {
 
-    const data = pieces[type];
+    const data =
+        pieces[type];
+
 
     if (!data) return;
 
@@ -997,13 +1243,15 @@ function showPiece(type, square) {
         .querySelectorAll(
             ".square.selected"
         )
-        .forEach(function (item) {
+        .forEach(
+            function (item) {
 
-            item.classList.remove(
-                "selected"
-            );
+                item.classList.remove(
+                    "selected"
+                );
 
-        });
+            }
+        );
 
 
     square.classList.add(
@@ -1012,7 +1260,8 @@ function showPiece(type, square) {
 
 
     if (
-        messageIndex[type] === undefined
+        messageIndex[type] ===
+        undefined
     ) {
 
         messageIndex[type] = 0;
@@ -1037,6 +1286,7 @@ function showPiece(type, square) {
     pieceName.textContent =
         data.name;
 
+
     message.textContent =
         data.messages[
             messageIndex[type]
@@ -1046,9 +1296,135 @@ function showPiece(type, square) {
     cutePop();
 
 
-    setTimeout(function () {
+    setTimeout(
+        function () {
 
-        cuteChime();
+            cuteChime();
 
-    }, 80);
+        },
+        80
+    );
+
 }
+
+
+/* =========================================================
+   SECRET FAKE INTRO
+========================================================= */
+
+window.addEventListener(
+    "load",
+    function () {
+
+        const fakeIntro =
+            document.getElementById(
+                "fakeIntro"
+            );
+
+
+        const prankScreen =
+            document.getElementById(
+                "prankScreen"
+            );
+
+
+        const prankText =
+            document.getElementById(
+                "prankText"
+            );
+
+
+        /*
+         * ننتظر قليلا حتى تبدو الصفحة
+         * كأنها فعلا فيها مشكلة
+         */
+
+        setTimeout(
+            function () {
+
+                fakeIntro.classList.add(
+                    "hide"
+                );
+
+
+                prankScreen.style.display =
+                    "flex";
+
+
+                /*
+                 * بعد ظهور الأسود بقليل
+                 * تظهر العبارة
+                 */
+
+                setTimeout(
+                    function () {
+
+                        prankText.textContent =
+                            "لحظة... صدقتِ هذا؟";
+
+
+                        prankText.classList.add(
+                            "show"
+                        );
+
+                    },
+                    450
+                );
+
+
+                /*
+                 * تختفي العبارة
+                 */
+
+                setTimeout(
+                    function () {
+
+                        prankText.classList.remove(
+                            "show"
+                        );
+
+                    },
+                    2100
+                );
+
+
+                /*
+                 * ظهور الموقع الحقيقي
+                 */
+
+                setTimeout(
+                    function () {
+
+                        prankScreen.style.transition =
+                            "opacity 0.8s ease";
+
+
+                        prankScreen.style.opacity =
+                            "0";
+
+
+                        document.body.classList.add(
+                            "reveal"
+                        );
+
+
+                        setTimeout(
+                            function () {
+
+                                prankScreen.style.display =
+                                    "none";
+
+                            },
+                            850
+                        );
+
+                    },
+                    2600
+                );
+
+            },
+            2600
+        );
+
+    }
+);
