@@ -16,33 +16,26 @@
 
 <body>
 
-
-    <!-- =========================================
-         الشاشة الوهمية
-    ========================================== -->
+    <!-- شاشة الموقع الوهمية -->
 
     <div id="fakeIntro">
 
-        <div class="fake-error">
+        <div class="fakeError">
 
-            <div class="fake-code">
-                404
+            <div class="fake404">404</div>
+
+            <div class="fakeTitle">
+                حدث خطأ في تحميل الصفحة
             </div>
 
-            <div class="fake-title">
-                الصفحة غير موجودة
+            <div class="fakeSmall">
+                حاول مرة أخرى لاحقًا
             </div>
 
-            <div class="fake-text">
-                حدث خطأ غير متوقع...
-            </div>
-
-            <div class="fake-loading">
-
+            <div class="fakeDots">
                 <span></span>
                 <span></span>
                 <span></span>
-
             </div>
 
         </div>
@@ -50,30 +43,20 @@
     </div>
 
 
-    <!-- =========================================
-         شاشة المزحة
-    ========================================== -->
+    <!-- شاشة المفاجأة -->
 
     <div id="prankScreen">
 
-        <div
-            class="prank-text"
-            id="prankText"
-        >
-            لحظة...
+        <div id="prankText">
+            لحظة... صدقتِ هذا؟
         </div>
 
     </div>
 
 
-    <!-- =========================================
-         الموقع الحقيقي
-    ========================================== -->
+    <!-- الموقع الحقيقي -->
 
     <main>
-
-
-        <!-- المقدمة -->
 
         <section
             class="intro"
@@ -107,8 +90,6 @@
         </section>
 
 
-        <!-- اللعبة -->
-
         <section
             class="game hidden"
             id="game"
@@ -122,12 +103,10 @@
                 اضغطي على القطع
             </p>
 
-
             <div
                 class="board"
                 id="board"
             ></div>
-
 
             <div class="message-box">
 
@@ -143,8 +122,6 @@
 
         </section>
 
-
-        <!-- النهاية -->
 
         <section
             class="ending hidden"
@@ -186,6 +163,82 @@
         </section>
 
     </main>
+
+
+    <!-- تشغيل الخدعة بشكل مستقل -->
+
+    <script>
+        (function () {
+
+            var fake =
+                document.getElementById("fakeIntro");
+
+            var prank =
+                document.getElementById("prankScreen");
+
+            var text =
+                document.getElementById("prankText");
+
+
+            /* شاشة الخطأ */
+
+            setTimeout(function () {
+
+                fake.style.opacity = "0";
+
+                setTimeout(function () {
+
+                    fake.style.display = "none";
+
+
+                    /* الشاشة السوداء */
+
+                    prank.style.display = "flex";
+
+                    prank.style.opacity = "1";
+
+
+                    /* العبارة تظهر */
+
+                    setTimeout(function () {
+
+                        text.style.display = "block";
+                        text.style.opacity = "1";
+                        text.style.transform = "scale(1)";
+
+                    }, 250);
+
+
+                    /* العبارة تختفي */
+
+                    setTimeout(function () {
+
+                        text.style.opacity = "0";
+                        text.style.transform = "scale(0.9)";
+
+                    }, 2100);
+
+
+                    /* الشاشة السوداء تختفي */
+
+                    setTimeout(function () {
+
+                        prank.style.opacity = "0";
+
+                        setTimeout(function () {
+
+                            prank.style.display = "none";
+
+                        }, 700);
+
+                    }, 2600);
+
+                }, 500);
+
+            }, 2500);
+
+        })();
+    </script>
 
 
     <script src="script.js"></script>
