@@ -22,9 +22,7 @@ const message =
 ===================================================== */
 
 let audioContext = null;
-
 let musicGain = null;
-
 let musicTimer = null;
 
 let soundEnabled = true;
@@ -45,11 +43,6 @@ function initAudio() {
 
     musicGain =
         audioContext.createGain();
-
-    /*
-       تم رفع الموسيقى من 0.055
-       إلى 0.095
-    */
 
     musicGain.gain.value =
         0.095;
@@ -189,6 +182,7 @@ function cuteChime() {
             oscillator.stop(
                 start + 0.43
             );
+
         }
     );
 }
@@ -240,11 +234,6 @@ function playBackgroundNote() {
         now
     );
 
-    /*
-       صوت النغمة الهادئة
-       مرفوع قليلا
-    */
-
     gain.gain.exponentialRampToValueAtTime(
         0.045,
         now + 0.12
@@ -273,9 +262,7 @@ function playBackgroundNote() {
         melodyIndex >=
         melody.length
     ) {
-
         melodyIndex = 0;
-
     }
 }
 
@@ -361,6 +348,7 @@ function createSoundButton() {
                 }
 
             }
+
         };
 }
 
@@ -376,69 +364,98 @@ const pieces = {
         name: "البيدق",
 
         messages: [
+
             "بدأت بخطوة صغيرة لكنك أصبحت شيئا كبيرا بالنسبة لي.",
+
             "كل شيء جميل يبدأ بخطوة بسيطة.",
+
             "ربما هي أصغر قطعة لكنها تذكرني ببداية قصتنا."
+
         ]
 
     },
+
 
     knight: {
 
         name: "الحصان",
 
         messages: [
+
             "تحركت بطريقة مختلفة ودخلت حياتي بطريقة مختلفة.",
+
             "طريقك مختلف عن الجميع وهذا ما جعلني أتعلق بك.",
+
             "الحصان يقفز فوق كل شيء، وأنت تخطيت كل المسافات ووصلت إلي."
+
         ]
 
     },
+
 
     bishop: {
 
         name: "الفيل",
 
         messages: [
+
             "مهما اختلف الطريق تبقين قريبة مني.",
+
             "طريقه مختلف، لكن نهايته دائما تصل إلى مكان ما.",
+
             "حتى عندما لا يكون الطريق مستقيما، وجودك يجعل الوصول جميلا."
+
         ]
 
     },
+
 
     rook: {
 
         name: "الرخ",
 
         messages: [
+
             "وجودك في حياتي شيء ثابت لا يتغير.",
+
             "الرخ يبقى ثابتا وقويا، وهذا ما أتمناه لوجودك معي.",
+
             "أحب الأشياء التي تبقى، وأنت واحدة منها."
+
         ]
 
     },
+
 
     queen: {
 
         name: "الملكة",
 
         messages: [
+
             "من بين كل القطع أنت القطعة التي تعني لي أكثر.",
+
             "الملكة تستطيع الوصول إلى كل مكان، وأنت وصلت إلى قلبي.",
+
             "لو كانت لهذه الرقعة قطعة تشبهك، فستكون الملكة."
+
         ]
 
     },
+
 
     king: {
 
         name: "الملك",
 
         messages: [
+
             "قد تكون حركته قليلة لكنه أهم قطعة، مثلك عندي تماما.",
+
             "ليس المهم عدد الخطوات، بل المكانة التي تملكها.",
+
             "هناك قطع كثيرة في الرقعة، لكن عيني دائما تبحث عنك."
+
         ]
 
     }
@@ -513,6 +530,7 @@ const layout = [
     "pawn",
     "pawn",
     "pawn",
+    "pawn",
 
     "rook",
     "knight",
@@ -529,7 +547,7 @@ const messageIndex = {};
 
 
 /* =====================================================
-   SVG PIECES
+   SVG HELPERS
 ===================================================== */
 
 function svgElement(
@@ -559,6 +577,10 @@ function svgElement(
 }
 
 
+/* =====================================================
+   SVG CHESS PIECES
+===================================================== */
+
 function createChessSVG(
     type,
     white
@@ -582,6 +604,7 @@ function createChessSVG(
         "class",
         "svg-chess-piece"
     );
+
 
     const fill =
         white
@@ -607,6 +630,7 @@ function createChessSVG(
                 "stroke-linejoin": "round"
             }
         );
+
     }
 
 
@@ -630,6 +654,7 @@ function createChessSVG(
                 "stroke-width": "1.8"
             }
         );
+
     }
 
 
@@ -651,6 +676,7 @@ function createChessSVG(
                 "stroke-width": "1.8"
             }
         );
+
     }
 
 
@@ -670,6 +696,7 @@ function createChessSVG(
                 "M22 86 Q24 78 32 76 L68 76 Q76 78 78 86 Z"
             )
         );
+
     }
 
 
@@ -690,6 +717,7 @@ function createChessSVG(
         );
 
         base();
+
     }
 
 
@@ -702,6 +730,7 @@ function createChessSVG(
         );
 
         base();
+
     }
 
 
@@ -720,6 +749,7 @@ function createChessSVG(
         );
 
         base();
+
     }
 
 
@@ -746,6 +776,7 @@ function createChessSVG(
         );
 
         base();
+
     }
 
 
@@ -796,6 +827,7 @@ function createChessSVG(
         );
 
         base();
+
     }
 
 
@@ -814,6 +846,7 @@ function createChessSVG(
         );
 
         base();
+
     }
 
 
@@ -851,6 +884,7 @@ startBtn.addEventListener(
             250
         );
 
+
         intro.classList.add(
             "hidden"
         );
@@ -859,7 +893,9 @@ startBtn.addEventListener(
             "hidden"
         );
 
+
         createSoundButton();
+
 
         const soundButton =
             document.getElementById(
@@ -873,6 +909,7 @@ startBtn.addEventListener(
             );
 
         }
+
 
         createBoard();
 
@@ -902,11 +939,13 @@ function createBoard() {
         square.className =
             "square";
 
+
         const row =
             Math.floor(i / 8);
 
         const col =
             i % 8;
+
 
         if (
             (row + col) % 2 === 0
@@ -924,8 +963,10 @@ function createBoard() {
 
         }
 
+
         const type =
             layout[i];
+
 
         if (!type) {
 
@@ -937,12 +978,15 @@ function createBoard() {
 
         }
 
+
         square.classList.add(
             "has-piece"
         );
 
+
         const isWhite =
             i >= 48;
+
 
         const svg =
             createChessSVG(
@@ -950,15 +994,18 @@ function createBoard() {
                 isWhite
             );
 
+
         svg.classList.add(
             isWhite
                 ? "white-piece"
                 : "black-piece"
         );
 
+
         square.appendChild(
             svg
         );
+
 
         square.addEventListener(
             "click",
@@ -972,10 +1019,13 @@ function createBoard() {
             }
         );
 
+
         board.appendChild(
             square
         );
+
     }
+
 }
 
 
@@ -1049,6 +1099,7 @@ function showPiece(
 
     cutePop();
 
+
     setTimeout(
         function () {
 
@@ -1057,4 +1108,5 @@ function showPiece(
         },
         80
     );
+
 }
