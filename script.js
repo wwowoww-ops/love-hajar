@@ -7,6 +7,9 @@ const intro =
 const game =
     document.getElementById("game");
 
+const ending =
+    document.getElementById("ending");
+
 const board =
     document.getElementById("board");
 
@@ -15,6 +18,9 @@ const pieceName =
 
 const message =
     document.getElementById("message");
+
+const endingTransition =
+    document.getElementById("endingTransition");
 
 
 /* =====================================================
@@ -53,9 +59,80 @@ function initAudio() {
 }
 
 
-/* =========================
-   صوت الضغط
-========================= */
+/* =====================================================
+   START SOUND
+===================================================== */
+
+function startSound() {
+
+    if (
+        !soundEnabled ||
+        !audioContext
+    ) return;
+
+    const now =
+        audioContext.currentTime;
+
+    const frequencies = [
+        392,
+        523.25,
+        659.25,
+        783.99
+    ];
+
+    frequencies.forEach(
+        function (frequency, index) {
+
+            const oscillator =
+                audioContext.createOscillator();
+
+            const gain =
+                audioContext.createGain();
+
+            const start =
+                now + index * 0.08;
+
+            oscillator.type =
+                "sine";
+
+            oscillator.frequency.value =
+                frequency;
+
+            gain.gain.setValueAtTime(
+                0.0001,
+                start
+            );
+
+            gain.gain.exponentialRampToValueAtTime(
+                0.12,
+                start + 0.03
+            );
+
+            gain.gain.exponentialRampToValueAtTime(
+                0.0001,
+                start + 0.38
+            );
+
+            oscillator.connect(gain);
+
+            gain.connect(
+                audioContext.destination
+            );
+
+            oscillator.start(start);
+
+            oscillator.stop(
+                start + 0.4
+            );
+
+        }
+    );
+}
+
+
+/* =====================================================
+   PIECE POP
+===================================================== */
 
 function cutePop() {
 
@@ -115,9 +192,9 @@ function cutePop() {
 }
 
 
-/* =========================
-   صوت القطعة
-========================= */
+/* =====================================================
+   CHIME
+===================================================== */
 
 function cuteChime() {
 
@@ -147,14 +224,14 @@ function cuteChime() {
             const gain =
                 audioContext.createGain();
 
+            const start =
+                now + index * 0.08;
+
             oscillator.type =
                 "sine";
 
             oscillator.frequency.value =
                 frequency;
-
-            const start =
-                now + index * 0.08;
 
             gain.gain.setValueAtTime(
                 0.0001,
@@ -181,6 +258,80 @@ function cuteChime() {
 
             oscillator.stop(
                 start + 0.43
+            );
+
+        }
+    );
+}
+
+
+/* =====================================================
+   FINAL SOUND
+===================================================== */
+
+function finalSound() {
+
+    if (
+        !soundEnabled ||
+        !audioContext
+    ) return;
+
+    const now =
+        audioContext.currentTime;
+
+    const notes = [
+        523.25,
+        659.25,
+        783.99,
+        1046.5
+    ];
+
+    notes.forEach(
+        function (
+            frequency,
+            index
+        ) {
+
+            const oscillator =
+                audioContext.createOscillator();
+
+            const gain =
+                audioContext.createGain();
+
+            const start =
+                now + index * 0.18;
+
+            oscillator.type =
+                "sine";
+
+            oscillator.frequency.value =
+                frequency;
+
+            gain.gain.setValueAtTime(
+                0.0001,
+                start
+            );
+
+            gain.gain.exponentialRampToValueAtTime(
+                0.11,
+                start + 0.04
+            );
+
+            gain.gain.exponentialRampToValueAtTime(
+                0.0001,
+                start + 0.9
+            );
+
+            oscillator.connect(gain);
+
+            gain.connect(
+                audioContext.destination
+            );
+
+            oscillator.start(start);
+
+            oscillator.stop(
+                start + 0.95
             );
 
         }
@@ -360,104 +511,57 @@ function createSoundButton() {
 const pieces = {
 
     pawn: {
-
         name: "البيدق",
-
         messages: [
-
             "بدأت بخطوة صغيرة لكنك أصبحت شيئا كبيرا بالنسبة لي.",
-
             "كل شيء جميل يبدأ بخطوة بسيطة.",
-
             "ربما هي أصغر قطعة لكنها تذكرني ببداية قصتنا."
-
         ]
-
     },
-
 
     knight: {
-
         name: "الحصان",
-
         messages: [
-
             "تحركت بطريقة مختلفة ودخلت حياتي بطريقة مختلفة.",
-
             "طريقك مختلف عن الجميع وهذا ما جعلني أتعلق بك.",
-
             "الحصان يقفز فوق كل شيء، وأنت تخطيت كل المسافات ووصلت إلي."
-
         ]
-
     },
-
 
     bishop: {
-
         name: "الفيل",
-
         messages: [
-
             "مهما اختلف الطريق تبقين قريبة مني.",
-
             "طريقه مختلف، لكن نهايته دائما تصل إلى مكان ما.",
-
             "حتى عندما لا يكون الطريق مستقيما، وجودك يجعل الوصول جميلا."
-
         ]
-
     },
-
 
     rook: {
-
         name: "الرخ",
-
         messages: [
-
             "وجودك في حياتي شيء ثابت لا يتغير.",
-
             "الرخ يبقى ثابتا وقويا، وهذا ما أتمناه لوجودك معي.",
-
             "أحب الأشياء التي تبقى، وأنت واحدة منها."
-
         ]
-
     },
-
 
     queen: {
-
         name: "الملكة",
-
         messages: [
-
             "من بين كل القطع أنت القطعة التي تعني لي أكثر.",
-
             "الملكة تستطيع الوصول إلى كل مكان، وأنت وصلت إلى قلبي.",
-
             "لو كانت لهذه الرقعة قطعة تشبهك، فستكون الملكة."
-
         ]
-
     },
 
-
     king: {
-
         name: "الملك",
-
         messages: [
-
             "قد تكون حركته قليلة لكنه أهم قطعة، مثلك عندي تماما.",
-
             "ليس المهم عدد الخطوات، بل المكانة التي تملكها.",
-
             "هناك قطع كثيرة في الرقعة، لكن عيني دائما تبحث عنك."
-
         ]
-
     }
 
 };
@@ -547,7 +651,7 @@ const messageIndex = {};
 
 
 /* =====================================================
-   SVG HELPERS
+   SVG
 ===================================================== */
 
 function svgElement(
@@ -577,10 +681,6 @@ function svgElement(
 }
 
 
-/* =====================================================
-   SVG CHESS PIECES
-===================================================== */
-
 function createChessSVG(
     type,
     white
@@ -605,7 +705,6 @@ function createChessSVG(
         "svg-chess-piece"
     );
 
-
     const fill =
         white
             ? "#ffffff"
@@ -623,9 +722,9 @@ function createChessSVG(
             svgNS,
             "path",
             {
-                d: d,
-                fill: fill,
-                stroke: stroke,
+                d,
+                fill,
+                stroke,
                 "stroke-width": "1.8",
                 "stroke-linejoin": "round"
             }
@@ -645,12 +744,12 @@ function createChessSVG(
             svgNS,
             "ellipse",
             {
-                cx: cx,
-                cy: cy,
-                rx: rx,
-                ry: ry,
-                fill: fill,
-                stroke: stroke,
+                cx,
+                cy,
+                rx,
+                ry,
+                fill,
+                stroke,
                 "stroke-width": "1.8"
             }
         );
@@ -668,11 +767,11 @@ function createChessSVG(
             svgNS,
             "circle",
             {
-                cx: cx,
-                cy: cy,
-                r: r,
-                fill: fill,
-                stroke: stroke,
+                cx,
+                cy,
+                r,
+                fill,
+                stroke,
                 "stroke-width": "1.8"
             }
         );
@@ -703,11 +802,7 @@ function createChessSVG(
     if (type === "pawn") {
 
         svg.appendChild(
-            circle(
-                50,
-                24,
-                12
-            )
+            circle(50, 24, 12)
         );
 
         svg.appendChild(
@@ -768,11 +863,7 @@ function createChessSVG(
         );
 
         svg.appendChild(
-            circle(
-                58,
-                29,
-                2
-            )
+            circle(58, 29, 2)
         );
 
         base();
@@ -789,35 +880,19 @@ function createChessSVG(
         );
 
         svg.appendChild(
-            circle(
-                27,
-                29,
-                4
-            )
+            circle(27, 29, 4)
         );
 
         svg.appendChild(
-            circle(
-                43,
-                22,
-                4
-            )
+            circle(43, 22, 4)
         );
 
         svg.appendChild(
-            circle(
-                57,
-                22,
-                4
-            )
+            circle(57, 22, 4)
         );
 
         svg.appendChild(
-            circle(
-                73,
-                29,
-                4
-            )
+            circle(73, 29, 4)
         );
 
         svg.appendChild(
@@ -855,7 +930,7 @@ function createChessSVG(
 
 
 /* =====================================================
-   START GAME
+   START
 ===================================================== */
 
 startBtn.addEventListener(
@@ -868,22 +943,17 @@ startBtn.addEventListener(
             audioContext &&
             audioContext.state === "suspended"
         ) {
-
             audioContext.resume();
-
         }
 
-        cutePop();
+        startSound();
 
         setTimeout(
             function () {
-
                 startMusic();
-
             },
-            250
+            300
         );
-
 
         intro.classList.add(
             "hidden"
@@ -893,9 +963,7 @@ startBtn.addEventListener(
             "hidden"
         );
 
-
         createSoundButton();
-
 
         const soundButton =
             document.getElementById(
@@ -910,8 +978,18 @@ startBtn.addEventListener(
 
         }
 
-
         createBoard();
+
+        setTimeout(
+            function () {
+
+                board.classList.add(
+                    "board-shine"
+                );
+
+            },
+            250
+        );
 
     }
 );
@@ -939,13 +1017,11 @@ function createBoard() {
         square.className =
             "square";
 
-
         const row =
             Math.floor(i / 8);
 
         const col =
             i % 8;
-
 
         if (
             (row + col) % 2 === 0
@@ -963,10 +1039,8 @@ function createBoard() {
 
         }
 
-
         const type =
             layout[i];
-
 
         if (!type) {
 
@@ -978,15 +1052,12 @@ function createBoard() {
 
         }
 
-
         square.classList.add(
             "has-piece"
         );
 
-
         const isWhite =
             i >= 48;
-
 
         const svg =
             createChessSVG(
@@ -994,18 +1065,15 @@ function createBoard() {
                 isWhite
             );
 
-
         svg.classList.add(
             isWhite
                 ? "white-piece"
                 : "black-piece"
         );
 
-
         square.appendChild(
             svg
         );
-
 
         square.addEventListener(
             "click",
@@ -1019,7 +1087,6 @@ function createBoard() {
             }
         );
 
-
         board.appendChild(
             square
         );
@@ -1030,7 +1097,7 @@ function createBoard() {
 
 
 /* =====================================================
-   PIECE MESSAGE
+   SHOW PIECE
 ===================================================== */
 
 function showPiece(
@@ -1088,25 +1155,199 @@ function showPiece(
     }
 
 
-    pieceName.textContent =
-        data.name;
+    /*
+       انتقال الرسالة
+    */
 
-    message.textContent =
-        data.messages[
-            messageIndex[type]
-        ];
+    const box =
+        document.querySelector(
+            ".message-box"
+        );
 
-
-    cutePop();
+    box.classList.add(
+        "message-changing"
+    );
 
 
     setTimeout(
         function () {
 
-            cuteChime();
+            pieceName.textContent =
+                data.name;
 
+            message.textContent =
+                data.messages[
+                    messageIndex[type]
+                ];
+
+            box.classList.remove(
+                "message-changing"
+            );
+
+        },
+        180
+    );
+
+
+    cutePop();
+
+    setTimeout(
+        function () {
+            cuteChime();
         },
         80
     );
 
+
+    /*
+       إذا كانت القطعة هي الملك
+    */
+
+    if (type === "king") {
+
+        setTimeout(
+            function () {
+
+                showEnding();
+
+            },
+            2600
+        );
+
+    }
+
 }
+
+
+/* =====================================================
+   ENDING
+===================================================== */
+
+let endingStarted = false;
+
+
+function showEnding() {
+
+    if (endingStarted) return;
+
+    endingStarted = true;
+
+
+    /* إخفاء اللعبة */
+    game.classList.add(
+        "game-hide"
+    );
+
+
+    /* صوت النهاية */
+    setTimeout(
+        function () {
+            finalSound();
+        },
+        300
+    );
+
+
+    /* شاشة انتقال سوداء */
+    setTimeout(
+        function () {
+
+            endingTransition.classList.add(
+                "show"
+            );
+
+        },
+        500
+    );
+
+
+    /* إخفاء اللعبة وإظهار النهاية */
+    setTimeout(
+        function () {
+
+            game.classList.add(
+                "hidden"
+            );
+
+            ending.classList.remove(
+                "hidden"
+            );
+
+            requestAnimationFrame(
+                function () {
+
+                    ending.classList.add(
+                        "ending-show"
+                    );
+
+                }
+            );
+
+        },
+        1200
+    );
+
+
+    /* تشغيل أنيميشن النهاية */
+    setTimeout(
+        function () {
+
+            ending.classList.add(
+                "final-animation"
+            );
+
+            endingTransition.classList.remove(
+                "show"
+            );
+
+        },
+        1350
+    );
+
+}
+
+
+/* =====================================================
+   المقلب → إظهار intro الحقيقي
+===================================================== */
+
+(function setupIntroReveal() {
+
+    const observer =
+        new MutationObserver(
+            function () {
+
+                if (
+                    intro.style.display ===
+                    "flex"
+                ) {
+
+                    setTimeout(
+                        function () {
+
+                            intro.classList.add(
+                                "intro-show"
+                            );
+
+                        },
+                        30
+                    );
+
+                    observer.disconnect();
+
+                }
+
+            }
+        );
+
+    observer.observe(
+        intro,
+        {
+            attributes: true,
+            attributeFilter: [
+                "style"
+            ]
+        }
+    );
+
+})();
