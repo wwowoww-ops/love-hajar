@@ -16,13 +16,14 @@
 
 <body>
 
-    <!-- شاشة الموقع الوهمية -->
-
+    <!-- الشاشة الوهمية -->
     <div id="fakeIntro">
 
         <div class="fakeError">
 
-            <div class="fake404">404</div>
+            <div class="fake404">
+                404
+            </div>
 
             <div class="fakeTitle">
                 حدث خطأ في تحميل الصفحة
@@ -43,19 +44,17 @@
     </div>
 
 
-    <!-- شاشة المفاجأة -->
-
+    <!-- الشاشة السوداء -->
     <div id="prankScreen">
 
         <div id="prankText">
-            صدقتي متتتتت
+            لحظة... صدقتِ هذا؟
         </div>
 
     </div>
 
 
     <!-- الموقع الحقيقي -->
-
     <main>
 
         <section
@@ -165,23 +164,31 @@
     </main>
 
 
-    <!-- تشغيل الخدعة بشكل مستقل -->
-
+    <!-- تشغيل المقلب قبل الموقع -->
     <script>
         (function () {
 
-            var fake =
+            const fake =
                 document.getElementById("fakeIntro");
 
-            var prank =
+            const prank =
                 document.getElementById("prankScreen");
 
-            var text =
+            const text =
                 document.getElementById("prankText");
 
+            const intro =
+                document.getElementById("intro");
 
-            /* شاشة الخطأ */
 
+            /* إخفاء الموقع الحقيقي تماما أثناء المقلب */
+            intro.style.display = "none";
+
+
+            /*
+                المرحلة 1
+                شاشة الخطأ
+            */
             setTimeout(function () {
 
                 fake.style.opacity = "0";
@@ -191,36 +198,55 @@
                     fake.style.display = "none";
 
 
-                    /* الشاشة السوداء */
-
+                    /*
+                        المرحلة 2
+                        الشاشة السوداء
+                    */
                     prank.style.display = "flex";
 
-                    prank.style.opacity = "1";
+                    requestAnimationFrame(function () {
+                        prank.style.opacity = "1";
+                    });
 
 
-                    /* العبارة تظهر */
-
+                    /*
+                        المرحلة 3
+                        الرسالة
+                    */
                     setTimeout(function () {
 
                         text.style.display = "block";
-                        text.style.opacity = "1";
-                        text.style.transform = "scale(1)";
 
-                    }, 250);
+                        requestAnimationFrame(function () {
+
+                            text.style.opacity = "1";
+
+                            text.style.transform =
+                                "scale(1)";
+
+                        });
+
+                    }, 300);
 
 
-                    /* العبارة تختفي */
-
+                    /*
+                        المرحلة 4
+                        اختفاء الرسالة
+                    */
                     setTimeout(function () {
 
                         text.style.opacity = "0";
-                        text.style.transform = "scale(0.9)";
 
-                    }, 2100);
+                        text.style.transform =
+                            "scale(0.9)";
+
+                    }, 2300);
 
 
-                    /* الشاشة السوداء تختفي */
-
+                    /*
+                        المرحلة 5
+                        اختفاء الشاشة السوداء
+                    */
                     setTimeout(function () {
 
                         prank.style.opacity = "0";
@@ -229,11 +255,19 @@
 
                             prank.style.display = "none";
 
+
+                            /*
+                                المرحلة 6
+                                ظهور الموقع الحقيقي
+                                مرة واحدة فقط
+                            */
+                            intro.style.display = "flex";
+
                         }, 700);
 
-                    }, 2600);
+                    }, 2900);
 
-                }, 500);
+                }, 600);
 
             }, 2500);
 
