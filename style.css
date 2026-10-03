@@ -48,6 +48,16 @@ body {
 }
 
 
+/*
+   مهم:
+   شاشة إلى هاجر تكون مخفية
+   أثناء المقلب
+*/
+#intro {
+    display: none;
+}
+
+
 /* =========================
    CARD
 ========================= */
@@ -486,6 +496,7 @@ button:active {
     50% {
         opacity: 1;
     }
+
 }
 
 
@@ -582,6 +593,7 @@ button:active {
 
     .board {
         grid-column: 1;
+
         grid-row: 3;
 
         width: min(42vw, 500px);
@@ -591,6 +603,7 @@ button:active {
 
     .message-box {
         grid-column: 2;
+
         grid-row: 3;
 
         align-self: center;
@@ -611,6 +624,7 @@ button:active {
 
         justify-content: center;
     }
+
 }
 
 
@@ -632,4 +646,5 @@ button:active {
     .message-box {
         width: 94vw;
     }
+
 }
