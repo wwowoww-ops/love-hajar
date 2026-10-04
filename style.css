@@ -6,19 +6,10 @@
 
 body {
     min-height: 100vh;
-
     background:
-        radial-gradient(
-            circle at top,
-            #35145c,
-            #170b27 50%,
-            #09050f
-        );
-
+        radial-gradient(circle at top, #35145c, #170b27 50%, #09050f);
     color: white;
-
     font-family: Arial, sans-serif;
-
     overflow-x: hidden;
 }
 
@@ -26,210 +17,115 @@ body {
     display: none !important;
 }
 
-
-/* =========================
-   INTRO
-========================= */
-
 .intro,
 .game,
 .ending {
     width: 100%;
     min-height: 100vh;
-
     display: flex;
-
     flex-direction: column;
-
     align-items: center;
     justify-content: center;
-
     padding: 20px;
 }
 
-
-/* المقدمة مخفية أثناء المقلب */
 #intro {
     display: none;
-
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-
     transform: scale(0.96);
-
     transition:
         opacity 1s ease,
         transform 1s ease;
 }
 
-
-/* ظهور المقدمة بعد انتهاء المقلب */
 #intro.intro-show {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-
     transform: scale(1);
 }
 
-
-/* =========================
-   CARD
-========================= */
-
 .card {
     width: min(92vw, 500px);
-
     padding: 35px 25px;
-
     text-align: center;
-
-    background:
-        rgba(30, 12, 48, 0.9);
-
-    border:
-        1px solid
-        rgba(180, 120, 255, 0.4);
-
+    background: rgba(30, 12, 48, 0.9);
+    border: 1px solid rgba(180, 120, 255, 0.4);
     border-radius: 22px;
-
-    box-shadow:
-        0 0 35px
-        rgba(130, 60, 220, 0.2);
-
+    box-shadow: 0 0 35px rgba(130, 60, 220, 0.2);
     backdrop-filter: blur(10px);
 }
 
 .small-title {
     color: #c99cff;
-
     font-size: 18px;
-
     margin-bottom: 18px;
 }
 
 h1 {
-    font-size:
-        clamp(28px, 7vw, 40px);
-
+    font-size: clamp(28px, 7vw, 40px);
     margin-bottom: 25px;
 }
 
 .intro p,
 .ending p {
     color: #d8c9e6;
-
     font-size: 17px;
-
     line-height: 1.9;
-
     margin-bottom: 7px;
 }
-
-
-/* =========================
-   BUTTON
-========================= */
 
 button {
     border: none;
     outline: none;
-
     margin-top: 25px;
-
     padding: 13px 30px;
-
     border-radius: 12px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #9b5de5,
-            #6d28a8
-        );
-
+    background: linear-gradient(135deg, #9b5de5, #6d28a8);
     color: white;
-
     font-size: 16px;
-
     cursor: pointer;
-
-    box-shadow:
-        0 5px 20px
-        rgba(130, 60, 220, 0.3);
-
-    transition:
-        transform 0.2s;
+    box-shadow: 0 5px 20px rgba(130, 60, 220, 0.3);
+    transition: transform 0.2s;
 }
 
 button:active {
     transform: scale(0.95);
 }
 
-
-/* =========================
-   GAME
-========================= */
-
 .game h2 {
     font-size: 30px;
-
     margin-bottom: 5px;
 }
 
 .hint {
     color: #bda8ce;
-
     margin-bottom: 18px;
 }
 
-
-/* =========================
-   BOARD
-========================= */
-
 .board {
     width: min(92vw, 420px);
-
     aspect-ratio: 1 / 1;
-
     display: grid;
-
-    grid-template-columns:
-        repeat(8, 1fr);
-
-    grid-template-rows:
-        repeat(8, 1fr);
-
-    border:
-        3px solid
-        #8b5cf6;
-
-    box-shadow:
-        0 0 30px
-        rgba(130, 60, 220, 0.25);
-
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    border: 3px solid #8b5cf6;
+    box-shadow: 0 0 30px rgba(130, 60, 220, 0.25);
     overflow: hidden;
 }
 
 .square {
     width: 100%;
     height: 100%;
-
     display: flex;
-
     align-items: center;
     justify-content: center;
-
     position: relative;
-
     user-select: none;
-
     cursor: pointer;
-
-    transition:
-        transform 0.15s;
+    transition: transform 0.15s;
 }
 
 .square.light {
@@ -245,122 +141,65 @@ button:active {
 }
 
 .square.selected {
-    box-shadow:
-        inset 0 0 0 4px
-        #c99cff;
+    box-shadow: inset 0 0 0 4px #c99cff;
 }
-
-
-/* =========================
-   SVG CHESS PIECES
-========================= */
 
 .svg-chess-piece {
     width: 86%;
     height: 86%;
-
     display: block;
-
     pointer-events: none;
-
     user-select: none;
-
     overflow: visible;
 }
 
 .white-piece {
-    filter:
-        drop-shadow(
-            0 2px 2px
-            rgba(0, 0, 0, 0.45)
-        );
+    filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.45));
 }
 
 .black-piece {
-    filter:
-        drop-shadow(
-            0 2px 2px
-            rgba(255, 255, 255, 0.12)
-        );
+    filter: drop-shadow(0 2px 2px rgba(255, 255, 255, 0.12));
 }
-
-
-/* =========================
-   MESSAGE
-========================= */
 
 .message-box {
     width: min(92vw, 420px);
-
     min-height: 120px;
-
     margin-top: 20px;
-
     padding: 20px;
-
     text-align: center;
-
-    background:
-        rgba(30, 12, 48, 0.85);
-
-    border:
-        1px solid
-        rgba(180, 120, 255, 0.35);
-
+    background: rgba(30, 12, 48, 0.85);
+    border: 1px solid rgba(180, 120, 255, 0.35);
     border-radius: 16px;
 }
 
 #pieceName {
     color: #c99cff;
-
     font-size: 18px;
-
     margin-bottom: 12px;
 }
 
 #message {
     color: #eee;
-
     font-size: 17px;
-
     line-height: 1.8;
 }
 
-
-/* =========================
-   SOUND BUTTON
-========================= */
-
 .sound-button {
     position: fixed;
-
     top: 18px;
     left: 18px;
-
     width: 44px;
     height: 44px;
-
     margin: 0;
     padding: 0;
-
     border-radius: 50%;
-
-    background:
-        rgba(30, 12, 48, 0.9);
-
-    border:
-        1px solid
-        rgba(201, 156, 255, 0.45);
-
+    background: rgba(30, 12, 48, 0.9);
+    border: 1px solid rgba(201, 156, 255, 0.45);
     color: white;
-
     font-size: 19px;
-
     display: none;
-
     align-items: center;
     justify-content: center;
-
     z-index: 1000;
 }
 
@@ -368,40 +207,26 @@ button:active {
     display: flex;
 }
 
-
-/* =========================
-   ENDING
-========================= */
-
 .checkmate {
     color: #c99cff;
-
     font-size: 22px;
-
     margin-bottom: 15px;
 }
 
 .final {
     color: #d39cff !important;
-
     font-size: 25px !important;
-
     margin-top: 15px;
 }
 
 .heart {
     color: #b86cff;
-
     font-size: 45px;
-
     margin-top: 15px;
-
-    animation:
-        pulse 1.5s infinite;
+    animation: pulse 1.5s infinite;
 }
 
 @keyframes pulse {
-
     0%,
     100% {
         transform: scale(1);
@@ -410,88 +235,58 @@ button:active {
     50% {
         transform: scale(1.15);
     }
-
 }
-
-
-/* =========================
-   FAKE ERROR
-========================= */
 
 #fakeIntro {
     position: fixed;
-
     inset: 0;
-
     z-index: 99999;
-
     display: flex;
-
     align-items: center;
     justify-content: center;
-
     background: #f2f2f2;
-
     color: #222;
-
     opacity: 1;
-
-    transition:
-        opacity 0.5s ease;
+    transition: opacity 0.5s ease;
 }
 
 .fakeError {
     width: 90%;
-
     max-width: 430px;
-
     text-align: center;
 }
 
 .fake404 {
     font-size: 78px;
-
     font-weight: bold;
-
     color: #777;
-
     margin-bottom: 15px;
 }
 
 .fakeTitle {
     font-size: 22px;
-
     color: #333;
-
     margin-bottom: 12px;
 }
 
 .fakeSmall {
     font-size: 14px;
-
     color: #999;
 }
 
 .fakeDots {
     display: flex;
-
     justify-content: center;
-
     gap: 7px;
-
     margin-top: 25px;
 }
 
 .fakeDots span {
     width: 7px;
     height: 7px;
-
     border-radius: 50%;
-
     background: #999;
-
-    animation:
-        fakeDot 1s infinite;
+    animation: fakeDot 1s infinite;
 }
 
 .fakeDots span:nth-child(2) {
@@ -503,7 +298,6 @@ button:active {
 }
 
 @keyframes fakeDot {
-
     0%,
     100% {
         opacity: 0.25;
@@ -512,144 +306,85 @@ button:active {
     50% {
         opacity: 1;
     }
-
 }
-
-
-/* =========================
-   PRANK SCREEN
-========================= */
 
 #prankScreen {
     position: fixed;
-
     inset: 0;
-
     z-index: 100000;
-
     display: none;
-
     align-items: center;
     justify-content: center;
-
     background: #000;
-
     color: white;
-
     opacity: 0;
-
-    transition:
-        opacity 0.7s ease;
+    transition: opacity 0.7s ease;
 }
 
 #prankText {
     display: none;
-
     color: white;
-
-    font-size:
-        clamp(24px, 7vw, 42px);
-
+    font-size: clamp(24px, 7vw, 42px);
     font-weight: bold;
-
     text-align: center;
-
     opacity: 0;
-
     transform: scale(0.9);
-
     transition:
         opacity 0.5s ease,
         transform 0.5s ease;
 }
 
-
-/* =========================
-   DESKTOP
-========================= */
-
 @media (min-width: 800px) {
-
     .game {
         display: grid;
-
         grid-template-columns:
             minmax(420px, 520px)
             minmax(320px, 420px);
-
         grid-template-rows:
             auto
             auto
             1fr;
-
         column-gap: 70px;
-
         align-content: center;
-
         justify-content: center;
-
         direction: ltr;
     }
 
     .game h2 {
         grid-column: 1 / -1;
-
         direction: rtl;
-
         margin-bottom: 5px;
     }
 
     .game .hint {
         grid-column: 1 / -1;
-
         direction: rtl;
-
         margin-bottom: 25px;
     }
 
     .board {
         grid-column: 1;
-
         grid-row: 3;
-
         width: min(42vw, 500px);
-
         justify-self: end;
     }
 
     .message-box {
         grid-column: 2;
-
         grid-row: 3;
-
         align-self: center;
-
         justify-self: start;
-
         width: min(35vw, 420px);
-
         min-height: 150px;
-
         margin-top: 0;
-
         direction: rtl;
-
         display: flex;
-
         flex-direction: column;
-
         justify-content: center;
     }
-
 }
 
-
-/* =========================
-   SMALL PHONES
-========================= */
-
 @media (max-width: 400px) {
-
     .board {
         width: 94vw;
     }
@@ -662,16 +397,8 @@ button:active {
     .message-box {
         width: 94vw;
     }
-
 }
 
-
-/* =========================
-   FINAL POLISH
-========================= */
-
-
-/* حركة البطاقة */
 #intro .card {
     transition:
         transform 0.5s ease,
@@ -682,8 +409,6 @@ button:active {
     transform: translateY(-4px);
 }
 
-
-/* زر البداية */
 #startBtn {
     transition:
         transform 0.2s ease,
@@ -692,18 +417,13 @@ button:active {
 
 #startBtn:hover {
     transform: translateY(-2px);
-
-    box-shadow:
-        0 8px 28px
-        rgba(155, 93, 229, 0.45);
+    box-shadow: 0 8px 28px rgba(155, 93, 229, 0.45);
 }
 
 #startBtn:active {
     transform: scale(0.94);
 }
 
-
-/* حركة القطعة عند اختيارها */
 .square.has-piece {
     transition:
         transform 0.18s ease,
@@ -715,12 +435,10 @@ button:active {
 }
 
 .square.selected {
-    animation:
-        pieceSelected 0.45s ease;
+    animation: pieceSelected 0.45s ease;
 }
 
 @keyframes pieceSelected {
-
     0% {
         transform: scale(1);
     }
@@ -732,22 +450,16 @@ button:active {
     100% {
         transform: scale(1);
     }
-
 }
 
-
-/* تكبير SVG بشكل بسيط عند المرور */
 .square:hover .svg-chess-piece {
     transform: scale(1.04);
 }
 
 .svg-chess-piece {
-    transition:
-        transform 0.2s ease;
+    transition: transform 0.2s ease;
 }
 
-
-/* الرسالة */
 .message-box {
     transition:
         opacity 0.3s ease,
@@ -759,8 +471,6 @@ button:active {
     transform: translateY(5px);
 }
 
-
-/* لمعة الرقعة */
 .board {
     position: relative;
     overflow: hidden;
@@ -768,35 +478,27 @@ button:active {
 
 .board::after {
     content: "";
-
     position: absolute;
-
     top: 0;
     left: -120%;
-
     width: 45%;
     height: 100%;
-
     pointer-events: none;
-
     background:
         linear-gradient(
             90deg,
             transparent,
-            rgba(255,255,255,0.13),
+            rgba(255, 255, 255, 0.13),
             transparent
         );
-
     transform: skewX(-18deg);
 }
 
 .board.board-shine::after {
-    animation:
-        boardShine 1.5s ease;
+    animation: boardShine 1.5s ease;
 }
 
 @keyframes boardShine {
-
     from {
         left: -120%;
     }
@@ -804,11 +506,8 @@ button:active {
     to {
         left: 140%;
     }
-
 }
 
-
-/* زر الصوت */
 .sound-button {
     transition:
         transform 0.2s ease,
@@ -823,15 +522,9 @@ button:active {
     transform: scale(0.92);
 }
 
-
-/* =========================
-   ENDING
-========================= */
-
 .ending {
     opacity: 0;
     transform: scale(0.96);
-
     transition:
         opacity 1s ease,
         transform 1s ease;
@@ -842,22 +535,17 @@ button:active {
     transform: scale(1);
 }
 
-
-/* إخفاء عناصر النهاية في البداية */
 .ending .checkmate,
 .ending h1,
 .ending p,
 .ending .heart {
     opacity: 0;
     transform: translateY(12px);
-
     transition:
         opacity 0.7s ease,
         transform 0.7s ease;
 }
 
-
-/* ظهور عناصر النهاية بالتتابع */
 .ending.final-animation .checkmate {
     opacity: 1;
     transform: translateY(0);
@@ -866,14 +554,12 @@ button:active {
 .ending.final-animation h1 {
     opacity: 1;
     transform: translateY(0);
-
     transition-delay: 0.35s;
 }
 
 .ending.final-animation p {
     opacity: 1;
     transform: translateY(0);
-
     transition-delay: 0.7s;
 }
 
@@ -888,21 +574,16 @@ button:active {
 .ending.final-animation .heart {
     opacity: 1;
     transform: translateY(0);
-
     transition-delay: 1.7s;
 }
 
-
-/* نبضة أخف للنهاية */
 .ending .heart {
     animation:
         finalHeart 1.7s ease-in-out infinite;
-
     animation-delay: 2.3s;
 }
 
 @keyframes finalHeart {
-
     0%,
     100% {
         transform: scale(1);
@@ -911,49 +592,32 @@ button:active {
     50% {
         transform: scale(1.12);
     }
-
 }
 
-
-/* انتقال اللعبة */
 .game {
     opacity: 1;
-
-    transition:
-        opacity 0.7s ease;
+    transition: opacity 0.7s ease;
 }
 
 .game.game-hide {
     opacity: 0;
 }
 
-
-/* شاشة سوداء صغيرة أثناء الانتقال للنهاية */
 #endingTransition {
     position: fixed;
-
     inset: 0;
-
     z-index: 99998;
-
     background: #000;
-
     opacity: 0;
-
     pointer-events: none;
-
-    transition:
-        opacity 0.8s ease;
+    transition: opacity 0.8s ease;
 }
 
 #endingTransition.show {
     opacity: 1;
 }
 
-
-/* الهاتف */
 @media (max-width: 799px) {
-
     .square.has-piece:hover {
         transform: none;
     }
@@ -961,13 +625,9 @@ button:active {
     .square:hover .svg-chess-piece {
         transform: none;
     }
-
 }
 
-
-/* اللابتوب */
 @media (min-width: 800px) {
-
     .square.has-piece {
         cursor: pointer;
     }
@@ -975,35 +635,22 @@ button:active {
     .square.has-piece:hover {
         box-shadow:
             inset 0 0 0 2px
-            rgba(255,255,255,0.22);
+            rgba(255, 255, 255, 0.22);
     }
-
 }
-
 
 .replay-button {
     margin-top: 28px;
-
     padding: 12px 28px;
-
     border: none;
-
     border-radius: 14px;
-
     background: #9b5de5;
-
     color: white;
-
     font-size: 16px;
-
     font-weight: bold;
-
     cursor: pointer;
-
     opacity: 0;
-
     transform: translateY(12px);
-
     transition:
         opacity 0.6s ease,
         transform 0.6s ease,
@@ -1013,18 +660,13 @@ button:active {
 
 .ending.final-animation .replay-button {
     opacity: 1;
-
     transform: translateY(0);
-
     transition-delay: 2.2s;
 }
 
 .replay-button:hover {
     background: #8a4bd1;
-
-    box-shadow:
-        0 8px 25px
-        rgba(155, 93, 229, 0.35);
+    box-shadow: 0 8px 25px rgba(155, 93, 229, 0.35);
 }
 
 .replay-button:active {
@@ -1032,11 +674,8 @@ button:active {
 }
 
 @media (max-width: 799px) {
-
     .replay-button:hover {
         background: #9b5de5;
-
         box-shadow: none;
     }
-
 }
