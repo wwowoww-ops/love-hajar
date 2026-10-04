@@ -812,7 +812,11 @@ function createChessSVG(
     if (type === "pawn") {
 
         svg.appendChild(
-            circle(50, 24, 12)
+            circle(
+                50,
+                24,
+                12
+            )
         );
 
         svg.appendChild(
@@ -873,7 +877,11 @@ function createChessSVG(
         );
 
         svg.appendChild(
-            circle(58, 29, 2)
+            circle(
+                58,
+                29,
+                2
+            )
         );
 
         base();
@@ -890,19 +898,35 @@ function createChessSVG(
         );
 
         svg.appendChild(
-            circle(27, 29, 4)
+            circle(
+                27,
+                29,
+                4
+            )
         );
 
         svg.appendChild(
-            circle(43, 22, 4)
+            circle(
+                43,
+                22,
+                4
+            )
         );
 
         svg.appendChild(
-            circle(57, 22, 4)
+            circle(
+                57,
+                22,
+                4
+            )
         );
 
         svg.appendChild(
-            circle(73, 29, 4)
+            circle(
+                73,
+                29,
+                4
+            )
         );
 
         svg.appendChild(
@@ -962,10 +986,13 @@ startBtn.addEventListener(
 
         setTimeout(
             function () {
+
                 startMusic();
+
             },
             300
         );
+
 
         intro.classList.add(
             "hidden"
@@ -975,7 +1002,9 @@ startBtn.addEventListener(
             "hidden"
         );
 
+
         createSoundButton();
+
 
         const soundButton =
             document.getElementById(
@@ -990,7 +1019,9 @@ startBtn.addEventListener(
 
         }
 
+
         createBoard();
+
 
         setTimeout(
             function () {
@@ -1015,6 +1046,7 @@ function createBoard() {
 
     board.innerHTML = "";
 
+
     for (
         let i = 0;
         i < 64;
@@ -1029,11 +1061,15 @@ function createBoard() {
         square.className =
             "square";
 
+
         const row =
-            Math.floor(i / 8);
+            Math.floor(
+                i / 8
+            );
 
         const col =
             i % 8;
+
 
         if (
             (row + col) % 2 === 0
@@ -1051,8 +1087,10 @@ function createBoard() {
 
         }
 
+
         const type =
             layout[i];
+
 
         if (!type) {
 
@@ -1064,12 +1102,15 @@ function createBoard() {
 
         }
 
+
         square.classList.add(
             "has-piece"
         );
 
+
         const isWhite =
             i >= 48;
+
 
         const svg =
             createChessSVG(
@@ -1077,15 +1118,18 @@ function createBoard() {
                 isWhite
             );
 
+
         svg.classList.add(
             isWhite
                 ? "white-piece"
                 : "black-piece"
         );
 
+
         square.appendChild(
             svg
         );
+
 
         square.addEventListener(
             "click",
@@ -1098,6 +1142,7 @@ function createBoard() {
 
             }
         );
+
 
         board.appendChild(
             square
@@ -1193,6 +1238,7 @@ function showPiece(
                     messageIndex[type]
                 ];
 
+
             if (box) {
 
                 box.classList.remove(
@@ -1208,9 +1254,12 @@ function showPiece(
 
     cutePop();
 
+
     setTimeout(
         function () {
+
             cuteChime();
+
         },
         80
     );
@@ -1253,7 +1302,9 @@ function showEnding() {
 
     setTimeout(
         function () {
+
             finalSound();
+
         },
         300
     );
@@ -1281,6 +1332,7 @@ function showEnding() {
             ending.classList.remove(
                 "hidden"
             );
+
 
             requestAnimationFrame(
                 function () {
@@ -1316,52 +1368,6 @@ function showEnding() {
 
 
 /* =====================================================
-   INTRO REVEAL
-===================================================== */
-
-(function setupIntroReveal() {
-
-    const observer =
-        new MutationObserver(
-            function () {
-
-                if (
-                    intro.style.display ===
-                    "flex"
-                ) {
-
-                    setTimeout(
-                        function () {
-
-                            intro.classList.add(
-                                "intro-show"
-                            );
-
-                        },
-                        30
-                    );
-
-                    observer.disconnect();
-
-                }
-
-            }
-        );
-
-    observer.observe(
-        intro,
-        {
-            attributes: true,
-            attributeFilter: [
-                "style"
-            ]
-        }
-    );
-
-})();
-
-
-/* =====================================================
    REPLAY
 ===================================================== */
 
@@ -1370,17 +1376,25 @@ const replayBtn =
         "replayBtn"
     );
 
+
 if (replayBtn) {
 
     replayBtn.addEventListener(
         "click",
         function () {
 
-            /* إعادة حالة النهاية */
-            endingStarted = false;
+            /*
+             * إعادة حالة النهاية
+             */
+
+            endingStarted =
+                false;
 
 
-            /* إخفاء النهاية */
+            /*
+             * إخفاء النهاية
+             */
+
             ending.classList.remove(
                 "final-animation",
                 "ending-show"
@@ -1391,20 +1405,29 @@ if (replayBtn) {
             );
 
 
-            /* إخفاء شاشة الانتقال */
+            /*
+             * إخفاء شاشة الانتقال
+             */
+
             endingTransition.classList.remove(
                 "show"
             );
 
 
-            /* إظهار اللعبة */
+            /*
+             * إظهار اللعبة
+             */
+
             game.classList.remove(
                 "hidden",
                 "game-hide"
             );
 
 
-            /* تصفير رسائل القطع */
+            /*
+             * تصفير رسائل القطع
+             */
+
             for (
                 const key in messageIndex
             ) {
@@ -1414,7 +1437,10 @@ if (replayBtn) {
             }
 
 
-            /* الرسالة الافتراضية */
+            /*
+             * الرسالة الافتراضية
+             */
+
             pieceName.textContent =
                 "اختاري قطعة";
 
@@ -1422,7 +1448,10 @@ if (replayBtn) {
                 "اضغطي على أي قطعة لتظهر رسالتها.";
 
 
-            /* إزالة التحديد */
+            /*
+             * إزالة التحديد
+             */
+
             document
                 .querySelectorAll(
                     ".square.selected"
@@ -1438,14 +1467,21 @@ if (replayBtn) {
                 );
 
 
-            /* إعادة بناء الرقعة */
+            /*
+             * إعادة بناء الرقعة
+             */
+
             createBoard();
 
 
-            /* إعادة اللمعة */
+            /*
+             * إعادة اللمعة
+             */
+
             board.classList.remove(
                 "board-shine"
             );
+
 
             setTimeout(
                 function () {
@@ -1459,7 +1495,10 @@ if (replayBtn) {
             );
 
 
-            /* العودة إلى اللعبة */
+            /*
+             * العودة إلى اللعبة
+             */
+
             game.scrollIntoView({
                 behavior: "smooth",
                 block: "center"
