@@ -3,30 +3,16 @@
 
 <head>
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>إلى هاجر</title>
-
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- =========================
-         الشاشة الوهمية
-    ========================== -->
-
     <div id="fakeIntro">
-
         <div class="fakeError">
-
-            <div class="fake404">
-                404
-            </div>
+            <div class="fake404">404</div>
 
             <div class="fakeTitle">
                 حدث خطأ في تحميل الصفحة
@@ -41,38 +27,18 @@
                 <span></span>
                 <span></span>
             </div>
-
         </div>
-
     </div>
 
-
-    <!-- =========================
-         الشاشة السوداء
-    ========================== -->
-
     <div id="prankScreen">
-
         <div id="prankText">
             متت صدقتي
         </div>
-
     </div>
-
-
-    <!-- =========================
-         الموقع الحقيقي
-    ========================== -->
 
     <main>
 
-        <!-- المقدمة -->
-
-        <section
-            class="intro"
-            id="intro"
-        >
-
+        <section class="intro" id="intro">
             <div class="card">
 
                 <div class="small-title">
@@ -96,18 +62,9 @@
                 </button>
 
             </div>
-
         </section>
 
-
-        <!-- =========================
-             لعبة الشطرنج
-        ========================== -->
-
-        <section
-            class="game hidden"
-            id="game"
-        >
+        <section class="game hidden" id="game">
 
             <h2>
                 رقعتنا
@@ -117,11 +74,7 @@
                 اضغطي على القطع
             </p>
 
-            <div
-                class="board"
-                id="board"
-            ></div>
-
+            <div class="board" id="board"></div>
 
             <div class="message-box">
 
@@ -137,15 +90,7 @@
 
         </section>
 
-
-        <!-- =========================
-             النهاية
-        ========================== -->
-
-        <section
-            class="ending hidden"
-            id="ending"
-        >
+        <section class="ending hidden" id="ending">
 
             <div class="card">
 
@@ -177,10 +122,7 @@
                     ♥
                 </div>
 
-                <button
-                    id="replayBtn"
-                    class="replay-button"
-                >
+                <button id="replayBtn" class="replay-button">
                     العبي مرة ثانية
                 </button>
 
@@ -188,156 +130,61 @@
 
         </section>
 
-
-        <!-- انتقال النهاية -->
-
         <div id="endingTransition"></div>
 
     </main>
 
-
-    <!-- =========================
-         سكربت المقلب
-    ========================== -->
-
     <script>
-
         (function () {
-
-            const fake =
-                document.getElementById("fakeIntro");
-
-            const prank =
-                document.getElementById("prankScreen");
-
-            const text =
-                document.getElementById("prankText");
-
-            const intro =
-                document.getElementById("intro");
-
-
-            /*
-             * إخفاء الـUI الحقيقية
-             * أثناء المقلب
-             */
+            const fake = document.getElementById("fakeIntro");
+            const prank = document.getElementById("prankScreen");
+            const text = document.getElementById("prankText");
+            const intro = document.getElementById("intro");
 
             intro.style.display = "none";
 
-
-            /*
-             * المرحلة 1
-             * شاشة الخطأ
-             */
-
             setTimeout(function () {
-
                 fake.style.opacity = "0";
 
                 setTimeout(function () {
-
                     fake.style.display = "none";
-
-
-                    /*
-                     * المرحلة 2
-                     * الشاشة السوداء
-                     */
-
                     prank.style.display = "flex";
 
                     requestAnimationFrame(function () {
-
                         prank.style.opacity = "1";
-
                     });
 
-
-                    /*
-                     * المرحلة 3
-                     * ظهور الرسالة
-                     */
-
                     setTimeout(function () {
-
                         text.style.display = "block";
 
                         requestAnimationFrame(function () {
-
                             text.style.opacity = "1";
-
-                            text.style.transform =
-                                "scale(1)";
-
+                            text.style.transform = "scale(1)";
                         });
-
                     }, 300);
 
-
-                    /*
-                     * المرحلة 4
-                     * اختفاء الرسالة
-                     */
-
                     setTimeout(function () {
-
                         text.style.opacity = "0";
-
-                        text.style.transform =
-                            "scale(0.9)";
-
+                        text.style.transform = "scale(0.9)";
                     }, 2300);
 
-
-                    /*
-                     * المرحلة 5
-                     * اختفاء الشاشة السوداء
-                     */
-
                     setTimeout(function () {
-
                         prank.style.opacity = "0";
 
-
                         setTimeout(function () {
-
                             prank.style.display = "none";
-
-
-                            /*
-                             * المرحلة 6
-                             * ظهور الـUI الحقيقية
-                             *
-                             * الإصلاح هنا:
-                             * لا نستخدم MutationObserver
-                             */
-
                             intro.style.display = "flex";
 
                             requestAnimationFrame(function () {
-
-                                intro.classList.add(
-                                    "intro-show"
-                                );
-
+                                intro.classList.add("intro-show");
                             });
-
                         }, 700);
-
                     }, 2900);
 
                 }, 600);
-
             }, 2500);
-
         })();
-
     </script>
-
-
-    <!-- =========================
-         ملف الجافاسكربت الرئيسي
-    ========================== -->
 
     <script src="script.js"></script>
 
